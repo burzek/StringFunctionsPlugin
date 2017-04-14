@@ -18,10 +18,8 @@ public class StringFunctionsAction extends AnAction {
 
 	@Override
 	public void actionPerformed(AnActionEvent anActionEvent) {
-		GuiFactory guiFactory = new GuiFactory(getEventProject(anActionEvent));
-		DialogBuilder dlg = guiFactory.createMainDialog();
-		int result = dlg.show();
-
-
+		GuiFactory guiFactory = new GuiFactory();
+		DialogBuilder dlg = guiFactory.createMainDialog(getEventProject(anActionEvent));
+		dlg.show();
 	}
 }

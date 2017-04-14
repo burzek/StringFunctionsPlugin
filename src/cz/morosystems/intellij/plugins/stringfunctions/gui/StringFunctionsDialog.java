@@ -1,5 +1,7 @@
 package cz.morosystems.intellij.plugins.stringfunctions.gui;
 
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogBuilder;
 import org.jetbrains.annotations.Nullable;
@@ -18,6 +20,13 @@ public class StringFunctionsDialog extends DialogBuilder {
 
 	public Project getProject() {
 		return project;
+	}
+
+	public Editor getOpenedEditor() {
+		if (project != null) {
+			return FileEditorManager.getInstance(project).getSelectedTextEditor();
+		}
+		return null;
 	}
 
 

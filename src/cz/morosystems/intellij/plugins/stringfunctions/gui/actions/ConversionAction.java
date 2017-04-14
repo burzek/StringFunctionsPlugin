@@ -23,8 +23,8 @@ public class ConversionAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		Document document = documentProcessor.getDocument();
 		Conversion transformer = new ConversionFactory().getTransformationAction(document.getOperation());
-		String str = transformer.convert(document.getInput());
-		document.setOutput(str);
+		String str = transformer.convert(document.getOriginalText());
+		document.setConvertedText(str);
 		documentProcessor.updateDocument(document);
 	}
 }

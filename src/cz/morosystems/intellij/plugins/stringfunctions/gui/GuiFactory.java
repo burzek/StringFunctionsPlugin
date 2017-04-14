@@ -20,17 +20,12 @@ import org.jdesktop.swingx.VerticalLayout;
 public class GuiFactory {
 
 	private Resources resources = new Resources();
-	private Project project;
 
 	private GridBagConstraints templateGBC = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH,
 			GridBagConstraints.HORIZONTAL, JBUI.insetsRight(5), 0, 0);
 
 
-	public GuiFactory(Project project) {
-		this.project = project;
-	}
-
-	public StringFunctionsDialog createMainDialog() {
+	public StringFunctionsDialog createMainDialog(Project project) {
 		StringFunctionsDialog dialogBuilder = new StringFunctionsDialog(project);
 		dialogBuilder.setCenterPanel(new MainPanel(dialogBuilder));
 		dialogBuilder.setTitle(resources.getText(ResourceKeys.WINDOW_TITLE));

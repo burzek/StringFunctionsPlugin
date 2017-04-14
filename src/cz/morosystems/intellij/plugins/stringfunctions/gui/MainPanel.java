@@ -7,12 +7,15 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.ui.EditorTextField;
 import org.jdesktop.swingx.VerticalLayout;
 
+import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.CloseAction;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.ConversionAction;
 import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
+import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.CopyToClipboardAction;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.DocumentProcessor;
-import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.SelectAction;
+import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.OperationSelectionAction;
 import cz.morosystems.intellij.plugins.stringfunctions.data.Operation;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.OperationSelectionListener;
+import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.ReplaceInEditorAction;
 
 /**
  * @author boris.brinza 12-Apr-2017.
@@ -37,7 +40,7 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 	}
 
 	private void initalizeGUI() {
-		guiFactory = new GuiFactory(dialog.getProject());
+		guiFactory = new GuiFactory();
 		setLayout(new GridBagLayout());
 
 
@@ -57,32 +60,35 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 
 		ButtonGroup buttonGroup = new ButtonGroup();
 		JPanel radioPanel = guiFactory.createPanel(new VerticalLayout(0));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.HEX_TO_STRING_ACTION, new SelectAction(this, Operation.HEX_TO_STRING), buttonGroup));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.STRING_TO_HEX_ACTION, new SelectAction(this, Operation.STRING_TO_HEX), buttonGroup));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BINARY_TO_STRING_ACTION, new SelectAction(this, Operation.BIN_TO_STRING), buttonGroup));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.STRING_TO_BINARY_ACTION, new SelectAction(this, Operation.STRING_TO_BIN), buttonGroup));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BASE_64_ENCODE_ACTION, new SelectAction(this, Operation.BASE_64_ENCODE), buttonGroup));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BASE_64_DECODE_ACTION, new SelectAction(this, Operation.BASE_64_DECODE), buttonGroup));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.URL_ENCODE_ACTION, new SelectAction(this, Operation.URL_ENCODE), buttonGroup));
-		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.URL_DECODE_ACTION, new SelectAction(this, Operation.URL_DECODE), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.STRING_TO_HEX_ACTION, new OperationSelectionAction(this, Operation.STRING_TO_HEX), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.HEX_TO_STRING_ACTION, new OperationSelectionAction(this, Operation.HEX_TO_STRING), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.STRING_TO_BINARY_ACTION, new OperationSelectionAction(this, Operation.STRING_TO_BIN), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BINARY_TO_STRING_ACTION, new OperationSelectionAction(this, Operation.BIN_TO_STRING), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BASE_64_ENCODE_ACTION, new OperationSelectionAction(this, Operation.BASE_64_ENCODE), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BASE_64_DECODE_ACTION, new OperationSelectionAction(this, Operation.BASE_64_DECODE), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.URL_ENCODE_ACTION, new OperationSelectionAction(this, Operation.URL_ENCODE), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.URL_DECODE_ACTION, new OperationSelectionAction(this, Operation.URL_DECODE), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.HTML_ENCODE_ACTION, new OperationSelectionAction(this, Operation.HTML_ENCODE), buttonGroup));
+		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.HTML_DECODE_ACTION, new OperationSelectionAction(this, Operation.HTML_DECODE), buttonGroup));
+
 		addComponent(radioPanel, 0, 3);
 		buttonGroup.getElements().nextElement().setSelected(true);	//select first button
 
 		JPanel buttonPanel = guiFactory.createPanel(new FlowLayout(FlowLayout.LEFT));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.REPLACE_ACTION, null));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.COPY_TO_CPB_ACTION, null));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.CLOSE_ACTION, null));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.REPLACE_ACTION, new ReplaceInEditorAction(getDocument())));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.COPY_TO_CPB_ACTION, new CopyToClipboardAction()));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.CLOSE_ACTION, new CloseAction(dialog)));
 		addComponent(buttonPanel, 0, 4);
 	}
 
 	@Override
 	public void updateDocument(Document document) {
-		outputText.setText(document.getOutput());
+		outputText.setText(document.getConvertedText());
 	}
 
 	@Override
 	public Document getDocument() {
-		return new Document(inputText.getText(), outputText.getText(), operation);
+		return new Document(dialog.getOpenedEditor(), inputText.getText(), outputText.getText(), operation);
 	}
 
 	private void loadSelection() {

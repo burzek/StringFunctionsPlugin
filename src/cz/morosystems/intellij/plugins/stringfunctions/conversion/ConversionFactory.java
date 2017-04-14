@@ -25,6 +25,10 @@ public class ConversionFactory {
 				return new UrlDecodeConversion();
 			case URL_ENCODE:
 				return new UrlEncodeConversion();
+			case HTML_ENCODE:
+				return new HtmlEncodeConversion();
+			case HTML_DECODE:
+				return new HtmlDecodeConversion();
 			default:
 				throw new IllegalStateException("Invalid transformation:" + transformation);
 

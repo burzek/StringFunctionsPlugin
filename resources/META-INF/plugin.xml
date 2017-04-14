@@ -21,7 +21,6 @@
         <action class="cz.morosystems.intellij.plugins.stringfunctions.StringFunctionsAction" id="StringFunctions" text="String Functions">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
-
     </actions>
 
 </idea-plugin>

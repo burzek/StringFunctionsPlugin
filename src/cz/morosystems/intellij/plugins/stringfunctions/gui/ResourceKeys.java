@@ -18,6 +18,9 @@ public class ResourceKeys {
 	public static final ResourceKeys BASE_64_DECODE_ACTION = new ResourceKeys("base64.decode.action");
 	public static final ResourceKeys URL_ENCODE_ACTION = new ResourceKeys("url.encode.action");
 	public static final ResourceKeys URL_DECODE_ACTION = new ResourceKeys("url.decode.action");
+	public static final ResourceKeys HTML_ENCODE_ACTION = new ResourceKeys("html.encode.action");
+	public static final ResourceKeys HTML_DECODE_ACTION = new ResourceKeys("html.decode.action");
+
 
 	public static final ResourceKeys CONVERT_ACTION = new ResourceKeys("convert.action");
 	public static final ResourceKeys REPLACE_ACTION = new ResourceKeys("replace.action");

@@ -3,8 +3,6 @@ package cz.morosystems.intellij.plugins.stringfunctions.gui.actions;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.project.Project;
 
 import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
 

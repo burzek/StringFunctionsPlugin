@@ -37,4 +37,20 @@ public class Resources {
 			return "???" + resourceKey.getResourceKey() + "???";
 		}
 	}
+
+	public Character getMnemonic(ResourceKeys resourceKey) {
+		Character ret = null;
+		try {
+			String mnemonicStr = resourceBundle.getString(resourceKey.getResourceKey() + ".mnemonic");
+			if (mnemonicStr != null && mnemonicStr.length() > 0) {
+				ret = mnemonicStr.charAt(0);
+			}
+		} catch (MissingResourceException e) {
+			if (getText(resourceKey).contains("&")) {
+				PluginManager.getLogger().error("Cannot find mnemonic for mnemonic resource with key:" + resourceKey.getResourceKey());
+			}
+		}
+
+		return ret;
+	}
 }

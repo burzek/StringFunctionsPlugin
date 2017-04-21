@@ -7,13 +7,13 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.ui.EditorTextField;
 import org.jdesktop.swingx.VerticalLayout;
 
+import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
+import cz.morosystems.intellij.plugins.stringfunctions.data.Operation;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.CloseAction;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.ConversionAction;
-import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.CopyToClipboardAction;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.DocumentProcessor;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.OperationSelectionAction;
-import cz.morosystems.intellij.plugins.stringfunctions.data.Operation;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.OperationSelectionListener;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.ReplaceInEditorAction;
 
@@ -44,12 +44,12 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 		setLayout(new GridBagLayout());
 
 
-		addComponent(guiFactory.createLabel(ResourceKeys.INPUT_TEXT), 0, 0);
-		inputText = guiFactory.createEditorTextField(ResourceKeys.INPUT_TEXT);
+		addComponent(guiFactory.createLabel(ResourceKeys.ORIGINAL_TEXT), 0, 0);
+		inputText = guiFactory.createEditorTextField();
 		addComponent(inputText, 1, 0);
 
-		addComponent(guiFactory.createLabel(ResourceKeys.OUTPUT_TEXT), 0, 1);
-		outputText = guiFactory.createEditorTextField(ResourceKeys.OUTPUT_TEXT);
+		addComponent(guiFactory.createLabel(ResourceKeys.CONVERTED_TEXT), 0, 1);
+		outputText = guiFactory.createEditorTextField();
 		addComponent(outputText, 1, 1);
 
 		GridBagConstraints gbc = guiFactory.getGBC(1, 2);
@@ -64,21 +64,32 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.HEX_TO_STRING_ACTION, new OperationSelectionAction(this, Operation.HEX_TO_STRING), buttonGroup));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.STRING_TO_BINARY_ACTION, new OperationSelectionAction(this, Operation.STRING_TO_BIN), buttonGroup));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BINARY_TO_STRING_ACTION, new OperationSelectionAction(this, Operation.BIN_TO_STRING), buttonGroup));
+		guiFactory.addBorder(radioPanel, ResourceKeys.CONVERSION_TITLE);
+		addComponent(radioPanel, 0, 3);
+
+
+
+		radioPanel = guiFactory.createPanel(new VerticalLayout(0));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BASE_64_ENCODE_ACTION, new OperationSelectionAction(this, Operation.BASE_64_ENCODE), buttonGroup));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.BASE_64_DECODE_ACTION, new OperationSelectionAction(this, Operation.BASE_64_DECODE), buttonGroup));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.URL_ENCODE_ACTION, new OperationSelectionAction(this, Operation.URL_ENCODE), buttonGroup));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.URL_DECODE_ACTION, new OperationSelectionAction(this, Operation.URL_DECODE), buttonGroup));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.HTML_ENCODE_ACTION, new OperationSelectionAction(this, Operation.HTML_ENCODE), buttonGroup));
 		radioPanel.add(guiFactory.createRadioButton(ResourceKeys.HTML_DECODE_ACTION, new OperationSelectionAction(this, Operation.HTML_DECODE), buttonGroup));
+		guiFactory.addBorder(radioPanel, ResourceKeys.CODING_TITLE);
+		addComponent(radioPanel, 1, 3);
 
-		addComponent(radioPanel, 0, 3);
 		buttonGroup.getElements().nextElement().setSelected(true);	//select first button
 
 		JPanel buttonPanel = guiFactory.createPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.REPLACE_ACTION, new ReplaceInEditorAction(getDocument())));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.COPY_TO_CPB_ACTION, new CopyToClipboardAction()));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.COPY_TO_CPB_ACTION, new CopyToClipboardAction(getDocument())));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.CLOSE_ACTION, new CloseAction(dialog)));
-		addComponent(buttonPanel, 0, 4);
+		gbc = guiFactory.getGBC(0, 4);
+		gbc.fill  = GridBagConstraints.VERTICAL;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.gridwidth = 2;
+		addComponent(buttonPanel, gbc);
 	}
 
 	@Override
@@ -112,7 +123,6 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 
 	@Override
 	public void operationSelected(Operation operation) {
-		System.out.println("Selected op:" + operation);
 		this.operation = operation;
 	}
 }

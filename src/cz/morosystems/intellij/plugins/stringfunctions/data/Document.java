@@ -13,6 +13,7 @@ public class Document {
 	private Operation operation;
 
 	public Document(Editor openedEditor, String originalText, String convertedText, Operation operation) {
+		this.openedEditor = openedEditor;
 		this.originalText = originalText;
 		this.convertedText = convertedText;
 		this.operation = operation;

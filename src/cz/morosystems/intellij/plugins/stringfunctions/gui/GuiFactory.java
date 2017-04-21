@@ -4,15 +4,10 @@ import java.awt.*;
 import javax.swing.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.EditorTextField;
-import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBLabelDecorator;
 import com.intellij.ui.components.JBPanel;
-import com.intellij.ui.components.JBPanelWithEmptyText;
 import com.intellij.ui.components.JBRadioButton;
-import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.JBUI;
-import org.intellij.lang.annotations.Flow;
-import org.jdesktop.swingx.VerticalLayout;
 
 /**
  * @author boris.brinza 12-Apr-2017.
@@ -36,15 +31,21 @@ public class GuiFactory {
 	}
 
 
+	public void addBorder(JComponent component, ResourceKeys title) {
+		component.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), resources.getText(title)));
+	}
+
 
 	public JBRadioButton createRadioButton(ResourceKeys label, Action action, ButtonGroup buttonGroup) {
 		JBRadioButton radioButton = new JBRadioButton(action);
 		radioButton.setText(resources.getText(label));
+		addMnemonic(radioButton, label);
 		buttonGroup.add(radioButton);
 		return radioButton;
 	}
 
-	public EditorTextField createEditorTextField(ResourceKeys label) {
+
+	public EditorTextField createEditorTextField() {
 		EditorTextField etf = new EditorTextField();
 		etf.setOneLineMode(false);
 		etf.setPreferredSize(new Dimension(300, 50));
@@ -52,10 +53,12 @@ public class GuiFactory {
 		return etf;
 	}
 
+
 	public JButton createActionButton(ResourceKeys label, Action action) {
 		JButton button = new JButton(resources.getText(label));
 		button.setAction(action);
 		button.setText(resources.getText(label));
+		addMnemonic(button, label);
 		return button;
 	}
 
@@ -74,6 +77,17 @@ public class GuiFactory {
 		gbc.gridx = x;
 		gbc.gridy = y;
 		return gbc;
+	}
+
+
+
+	private void addMnemonic(AbstractButton component, ResourceKeys label) {
+		Character mnemonicChar = resources.getMnemonic(label);
+		if (mnemonicChar != null) {
+			component.setMnemonic(mnemonicChar);
+		}
+
+
 	}
 
 

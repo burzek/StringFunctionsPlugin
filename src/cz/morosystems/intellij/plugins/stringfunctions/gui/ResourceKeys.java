@@ -7,8 +7,11 @@ public class ResourceKeys {
 
 	public static final ResourceKeys WINDOW_TITLE = new ResourceKeys("window.title");
 
-	public static final ResourceKeys INPUT_TEXT = new ResourceKeys("input.text.label");
-	public static final ResourceKeys OUTPUT_TEXT = new ResourceKeys("output.text.label");
+	public static final ResourceKeys ORIGINAL_TEXT = new ResourceKeys("originalText.text.label");
+	public static final ResourceKeys CONVERTED_TEXT = new ResourceKeys("convertedText.text.label");
+
+	public static final ResourceKeys CONVERSION_TITLE = new ResourceKeys("conversion.title");
+	public static final ResourceKeys CODING_TITLE = new ResourceKeys("coding.title");
 
 	public static final ResourceKeys HEX_TO_STRING_ACTION = new ResourceKeys("hex.to.string.action");
 	public static final ResourceKeys STRING_TO_HEX_ACTION = new ResourceKeys("string.to.hex.action");
@@ -20,6 +23,7 @@ public class ResourceKeys {
 	public static final ResourceKeys URL_DECODE_ACTION = new ResourceKeys("url.decode.action");
 	public static final ResourceKeys HTML_ENCODE_ACTION = new ResourceKeys("html.encode.action");
 	public static final ResourceKeys HTML_DECODE_ACTION = new ResourceKeys("html.decode.action");
+
 
 
 	public static final ResourceKeys CONVERT_ACTION = new ResourceKeys("convert.action");

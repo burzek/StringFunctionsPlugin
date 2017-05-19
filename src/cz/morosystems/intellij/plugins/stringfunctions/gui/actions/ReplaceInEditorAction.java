@@ -2,6 +2,7 @@ package cz.morosystems.intellij.plugins.stringfunctions.gui.actions;
 
 import java.awt.event.ActionEvent;
 import javax.swing.*;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 
 import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
@@ -23,8 +24,11 @@ public class ReplaceInEditorAction extends AbstractAction {
 			String selectedText = editor.getSelectionModel().getSelectedText();
 			if (selectedText != null && selectedText.length() > 0) {
 				int startPosition = editor.getSelectionModel().getSelectionStart();
-				editor.getSelectionModel().removeSelection();
-				editor.getDocument().insertString(startPosition, "-XXXX-");
+				int endPosition = editor.getSelectionModel().getSelectionEnd();
+				WriteCommandAction.runWriteCommandAction(document.getOpenedEditor().getProject(), () -> {
+					editor.getDocument().deleteString(startPosition, endPosition);
+					editor.getDocument().insertString(startPosition, document.getConvertedText());
+				});
 			}
 		}
 	}

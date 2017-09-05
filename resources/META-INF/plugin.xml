@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>StringFunctionsPlugin</id>
+    <id>StringToolsPlugin</id>
     <name>String Tools</name>
     <version>1.0</version>
     <vendor email="boris.brinza@gmail.com" url="http://www.morosystems.cz">MoroSystems</vendor>

@@ -6,22 +6,20 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
-
 /**
  * @author boris.brinza 14-Apr-2017.
  */
 public class CopyToClipboardAction extends AbstractAction {
 
-	private Document document;
+	private TransformationProcessor processor;
 
-	public CopyToClipboardAction(Document document) {
-		this.document = document;
+	public CopyToClipboardAction(TransformationProcessor processor) {
+		this.processor = processor;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		StringSelection stringSelection = new StringSelection(document.getConvertedText());
+		StringSelection stringSelection = new StringSelection(processor.getTransformationData().getConvertedText());
 		Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clpbrd.setContents(stringSelection, null);
 	}

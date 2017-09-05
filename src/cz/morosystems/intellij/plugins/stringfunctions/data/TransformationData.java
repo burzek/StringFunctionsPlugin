@@ -5,14 +5,14 @@ import com.intellij.openapi.editor.Editor;
 /**
  * @author boris.brinza 12-Apr-2017.
  */
-public class Document {
+public class TransformationData {
 
 	private Editor openedEditor;
 	private String originalText;
 	private String convertedText;
 	private Operation operation;
 
-	public Document(Editor openedEditor, String originalText, String convertedText, Operation operation) {
+	public TransformationData(Editor openedEditor, String originalText, String convertedText, Operation operation) {
 		this.openedEditor = openedEditor;
 		this.originalText = originalText;
 		this.convertedText = convertedText;

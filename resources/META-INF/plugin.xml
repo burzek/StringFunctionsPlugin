@@ -1,11 +1,11 @@
 <idea-plugin>
     <id>StringFunctionsPlugin</id>
-    <name>StringFunctionsPlugin</name>
+    <name>String Tools</name>
     <version>1.0</version>
     <vendor email="boris.brinza@gmail.com" url="http://www.morosystems.cz">MoroSystems</vendor>
 
     <description><![CDATA[
-      Bunch of string functions (conversions/encoders/decoders).<br>
+      Bunch of string tools (conversions/encoders/decoders).<br>
     ]]></description>
 
     <change-notes><![CDATA[
@@ -18,8 +18,9 @@
 
 
     <actions>
-        <action class="cz.morosystems.intellij.plugins.stringfunctions.StringFunctionsAction" id="StringFunctions" text="String Functions">
+        <action class="cz.morosystems.intellij.plugins.stringfunctions.StringFunctionsAction" id="StringTools" text="String Tools">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <keyboard-shortcut first-keystroke="control shift S" second-keystroke="T" keymap="$default"/>
         </action>
     </actions>
 

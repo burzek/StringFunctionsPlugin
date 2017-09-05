@@ -7,20 +7,20 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.ui.EditorTextField;
 import org.jdesktop.swingx.VerticalLayout;
 
-import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
 import cz.morosystems.intellij.plugins.stringfunctions.data.Operation;
+import cz.morosystems.intellij.plugins.stringfunctions.data.TransformationData;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.CloseAction;
-import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.ConversionAction;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.CopyToClipboardAction;
-import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.DocumentProcessor;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.OperationSelectionAction;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.OperationSelectionListener;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.ReplaceInEditorAction;
+import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.TransformationAction;
+import cz.morosystems.intellij.plugins.stringfunctions.gui.actions.TransformationProcessor;
 
 /**
  * @author boris.brinza 12-Apr-2017.
  */
-public class MainPanel extends JPanel implements DocumentProcessor, OperationSelectionListener {
+public class MainPanel extends JPanel implements TransformationProcessor, OperationSelectionListener {
 	private StringFunctionsDialog dialog;
 
 	private EditorTextField inputText;
@@ -56,7 +56,7 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 		gbc.fill  = GridBagConstraints.VERTICAL;
 		gbc.weightx = 0.1;
 		gbc.anchor = GridBagConstraints.EAST;
-		addComponent(guiFactory.createActionButton(ResourceKeys.CONVERT_ACTION, new ConversionAction(this)), gbc);
+		addComponent(guiFactory.createActionButton(ResourceKeys.CONVERT_ACTION, new TransformationAction(this)), gbc);
 
 		ButtonGroup buttonGroup = new ButtonGroup();
 		JPanel radioPanel = guiFactory.createPanel(new VerticalLayout(0));
@@ -79,11 +79,13 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 		guiFactory.addBorder(radioPanel, ResourceKeys.CODING_TITLE);
 		addComponent(radioPanel, 1, 3);
 
-		buttonGroup.getElements().nextElement().setSelected(true);	//select first button
+		AbstractButton defaultButton = buttonGroup.getElements().nextElement();
+		defaultButton.setSelected(true);	//select first button
+		operation = ((OperationSelectionAction) defaultButton.getAction()).getOperation();
 
 		JPanel buttonPanel = guiFactory.createPanel(new FlowLayout(FlowLayout.LEFT));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.REPLACE_ACTION, new ReplaceInEditorAction(getDocument())));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.COPY_TO_CPB_ACTION, new CopyToClipboardAction(getDocument())));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.REPLACE_ACTION, new ReplaceInEditorAction(this)));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.COPY_TO_CPB_ACTION, new CopyToClipboardAction(this)));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.CLOSE_ACTION, new CloseAction(dialog)));
 		gbc = guiFactory.getGBC(0, 4);
 		gbc.fill  = GridBagConstraints.VERTICAL;
@@ -92,15 +94,6 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 		addComponent(buttonPanel, gbc);
 	}
 
-	@Override
-	public void updateDocument(Document document) {
-		outputText.setText(document.getConvertedText());
-	}
-
-	@Override
-	public Document getDocument() {
-		return new Document(dialog.getOpenedEditor(), inputText.getText(), outputText.getText(), operation);
-	}
 
 	private void loadSelection() {
 		Editor editor = FileEditorManager.getInstance(dialog.getProject()).getSelectedTextEditor();
@@ -125,4 +118,15 @@ public class MainPanel extends JPanel implements DocumentProcessor, OperationSel
 	public void operationSelected(Operation operation) {
 		this.operation = operation;
 	}
+
+	@Override
+	public void updateData(TransformationData data) {
+		outputText.setText(data.getConvertedText());
+	}
+
+	@Override
+	public TransformationData getTransformationData() {
+		return new TransformationData(dialog.getOpenedEditor(), inputText.getText(), outputText.getText(), operation);
+	}
+
 }

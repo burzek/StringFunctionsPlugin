@@ -22,4 +22,8 @@ public class OperationSelectionAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		selectionListener.operationSelected(operation);
 	}
+
+	public Operation getOperation() {
+		return operation;
+	}
 }

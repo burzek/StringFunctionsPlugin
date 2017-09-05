@@ -3,9 +3,6 @@ package cz.morosystems.intellij.plugins.stringfunctions.gui.actions;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import cz.morosystems.intellij.plugins.stringfunctions.conversion.Conversion;
-import cz.morosystems.intellij.plugins.stringfunctions.conversion.ConversionFactory;
-import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
 import cz.morosystems.intellij.plugins.stringfunctions.gui.StringFunctionsDialog;
 
 /**

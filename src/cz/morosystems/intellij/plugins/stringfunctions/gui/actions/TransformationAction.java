@@ -3,28 +3,28 @@ package cz.morosystems.intellij.plugins.stringfunctions.gui.actions;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import cz.morosystems.intellij.plugins.stringfunctions.data.Document;
-import cz.morosystems.intellij.plugins.stringfunctions.conversion.ConversionFactory;
 import cz.morosystems.intellij.plugins.stringfunctions.conversion.Conversion;
+import cz.morosystems.intellij.plugins.stringfunctions.conversion.ConversionFactory;
+import cz.morosystems.intellij.plugins.stringfunctions.data.TransformationData;
 
 /**
  * @author boris.brinza 13-Apr-2017.
  */
-public class ConversionAction extends AbstractAction {
+public class TransformationAction extends AbstractAction {
 
-	private DocumentProcessor documentProcessor;
+	private TransformationProcessor processor;
 
 
-	public ConversionAction(DocumentProcessor documentProcessor) {
-		this.documentProcessor = documentProcessor;
+	public TransformationAction(TransformationProcessor processor) {
+		this.processor = processor;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Document document = documentProcessor.getDocument();
+		TransformationData document = processor.getTransformationData();
 		Conversion transformer = new ConversionFactory().getTransformationAction(document.getOperation());
 		String str = transformer.convert(document.getOriginalText());
 		document.setConvertedText(str);
-		documentProcessor.updateDocument(document);
+		processor.updateData(document);
 	}
 }

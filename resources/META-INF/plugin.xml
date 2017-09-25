@@ -2,10 +2,10 @@
     <id>StringToolsPlugin</id>
     <name>String Tools</name>
     <version>1.0</version>
-    <vendor email="boris.brinza@gmail.com" url="http://www.morosystems.cz">MoroSystems</vendor>
+    <vendor email="boris.brinza@gmail.com" url="https://www.linkedin.com/in/boris-brinza-5768846/">MSLB</vendor>
 
     <description><![CDATA[
-      Bunch of string tools (conversions/encoders/decoders).<br>
+      Bunch of string tools for converting, encoding and decoding.<br>
     ]]></description>
 
     <change-notes><![CDATA[
@@ -18,7 +18,7 @@
 
 
     <actions>
-        <action class="cz.morosystems.intellij.plugins.stringfunctions.StringFunctionsAction" id="StringTools" text="String Tools">
+        <action class="sk.mslb.intellij.plugins.stringfunctions.StringFunctionsAction" id="StringTools" text="String Tools">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut first-keystroke="control shift S" second-keystroke="T" keymap="$default"/>
         </action>

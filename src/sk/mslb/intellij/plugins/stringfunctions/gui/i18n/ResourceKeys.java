@@ -9,6 +9,7 @@ public class ResourceKeys {
 
 	public static final ResourceKeys ORIGINAL_TEXT = new ResourceKeys("originalText.text.label");
 	public static final ResourceKeys CONVERTED_TEXT = new ResourceKeys("convertedText.text.label");
+	public static final ResourceKeys SWITCH_EDITORS = new ResourceKeys("switch.action");
 
 	public static final ResourceKeys CONVERSION_TITLE = new ResourceKeys("conversion.title");
 	public static final ResourceKeys CODING_TITLE = new ResourceKeys("coding.title");

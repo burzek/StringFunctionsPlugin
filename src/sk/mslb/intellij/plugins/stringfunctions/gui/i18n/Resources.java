@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import javax.swing.*;
 import com.intellij.ide.plugins.PluginManager;
+import com.intellij.openapi.util.IconLoader;
 import org.jetbrains.java.generate.exception.PluginException;
 
 /**
@@ -36,6 +38,17 @@ public class Resources {
 			PluginManager.getLogger().error("Cannot find resource with key:" + resourceKey.getResourceKey());
 			return "???" + resourceKey.getResourceKey() + "???";
 		}
+	}
+
+	public Icon getIcon(ResourceKeys resourceKey) {
+		try {
+			String iconPath = resourceBundle.getString(resourceKey.getResourceKey() + ".icon");
+			return IconLoader.getIcon(iconPath);
+		} catch (MissingResourceException e) {
+			//nevermind icon is not found
+			return null;
+		}
+
 	}
 
 	public Character getMnemonic(ResourceKeys resourceKey) {

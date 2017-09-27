@@ -1,4 +1,4 @@
-package sk.mslb.intellij.plugins.stringfunctions.gui;
+package sk.mslb.intellij.plugins.stringfunctions.gui.components;
 
 import java.awt.*;
 import javax.swing.*;
@@ -8,6 +8,9 @@ import com.intellij.ui.components.JBLabelDecorator;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.ui.components.JBRadioButton;
 import com.intellij.util.ui.JBUI;
+
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKeys;
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.Resources;
 
 /**
  * @author boris.brinza 12-Apr-2017.
@@ -80,6 +83,10 @@ public class GuiFactory {
 	}
 
 
+	public String translateText(ResourceKeys resourceKey) {
+		return resources.getText(resourceKey);
+	}
+
 
 	private void addMnemonic(AbstractButton component, ResourceKeys label) {
 		Character mnemonicChar = resources.getMnemonic(label);
@@ -89,6 +96,8 @@ public class GuiFactory {
 
 
 	}
+
+
 
 
 }

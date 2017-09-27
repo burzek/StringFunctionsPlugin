@@ -1,6 +1,5 @@
 package sk.mslb.intellij.plugins.stringfunctions.conversion;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
@@ -14,7 +13,10 @@ public class BinaryToStringConversion implements Conversion {
 	}
 
 	private String asString(String binString) {
-			String tmpStr = binString.length() % 8 == 0 ? binString: binString.substring(0, 8 * (binString.length() / 8));
+		String tmpStr = binString.length() % 8 == 0 ? binString: binString.substring(0, 8 * (binString.length() / 8));
+		if (tmpStr.length() == 0) {
+			return "";
+		}
 
 		StringBuilder sb = new StringBuilder();
 		Arrays.stream(tmpStr.split("(?<=\\G.{8})"))

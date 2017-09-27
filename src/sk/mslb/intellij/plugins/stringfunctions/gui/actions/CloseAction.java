@@ -3,7 +3,7 @@ package sk.mslb.intellij.plugins.stringfunctions.gui.actions;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import sk.mslb.intellij.plugins.stringfunctions.gui.StringFunctionsDialog;
+import sk.mslb.intellij.plugins.stringfunctions.gui.components.StringFunctionsDialog;
 
 /**
  * @author boris.brinza 13-Apr-2017.

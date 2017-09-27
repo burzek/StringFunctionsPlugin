@@ -1,4 +1,4 @@
-package sk.mslb.intellij.plugins.stringfunctions.gui;
+package sk.mslb.intellij.plugins.stringfunctions.gui.i18n;
 
 /**
  * @author boris.brinza 12-Apr-2017.
@@ -30,6 +30,11 @@ public class ResourceKeys {
 	public static final ResourceKeys REPLACE_ACTION = new ResourceKeys("replace.action");
 	public static final ResourceKeys COPY_TO_CPB_ACTION = new ResourceKeys("copy.to.cpb.action");
 	public static final ResourceKeys CLOSE_ACTION = new ResourceKeys("cancel.action");
+
+	public static final ResourceKeys STATUS_DEFAULT_TEXT = new ResourceKeys("status.text.default");
+	public static final ResourceKeys COPIED_TO_CLIPBOARD_STATUS = new ResourceKeys("copied.to.clipboard.status");
+	public static final ResourceKeys REPLACE_DONE_STATUS = new ResourceKeys("replace.done.status");
+	public static final ResourceKeys NO_SELECTION_STATUS = new ResourceKeys("no.selection.status");
 
 	private String resourceKey;
 

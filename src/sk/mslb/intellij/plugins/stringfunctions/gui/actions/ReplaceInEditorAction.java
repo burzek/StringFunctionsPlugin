@@ -6,6 +6,7 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 
 import sk.mslb.intellij.plugins.stringfunctions.data.TransformationData;
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKeys;
 
 /**
  * @author boris.brinza 14-Apr-2017.
@@ -29,10 +30,10 @@ public class ReplaceInEditorAction extends AbstractAction {
 				WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
 					editor.getDocument().replaceString(startPosition, endPosition, transformationData.getConvertedText());
 				});
-				editor.getSelectionModel().removeSelection();
-				processor.updateStatus("Selection replaced");
+				//editor.getSelectionModel().removeSelection();
+				processor.updateStatus(ResourceKeys.REPLACE_DONE_STATUS);
 			} else {
-				processor.updateStatus("No selection");
+				processor.updateStatus(ResourceKeys.NO_SELECTION_STATUS);
 			}
 		}
 	}

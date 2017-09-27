@@ -5,14 +5,14 @@
     <vendor email="boris.brinza@gmail.com" url="https://www.linkedin.com/in/boris-brinza-5768846/">MSLB</vendor>
 
     <description><![CDATA[
-      Bunch of string tools for converting, encoding and decoding.<br>
+      Handy string tools for converting, encoding and decoding.<br>
     ]]></description>
 
     <change-notes><![CDATA[
       Initial release.<br>
     ]]>
     </change-notes>
-    <version>0.1</version>
+    <version>1.0</version>
 
     <idea-version since-build="145.0"/>
 

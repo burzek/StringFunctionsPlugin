@@ -1,4 +1,4 @@
-package sk.mslb.intellij.plugins.stringfunctions.gui;
+package sk.mslb.intellij.plugins.stringfunctions.gui.components;
 
 import java.awt.*;
 import javax.swing.*;
@@ -16,6 +16,7 @@ import sk.mslb.intellij.plugins.stringfunctions.gui.actions.OperationSelectionLi
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.ReplaceInEditorAction;
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationAction;
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationProcessor;
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKeys;
 
 /**
  * @author boris.brinza 12-Apr-2017.
@@ -143,7 +144,7 @@ public class MainPanel extends JPanel implements TransformationProcessor, Operat
 	}
 
 	@Override
-	public void updateStatus(String status) {
+	public void updateStatus(ResourceKeys status) {
 		statusLine.updateStatus(status);
 	}
 }

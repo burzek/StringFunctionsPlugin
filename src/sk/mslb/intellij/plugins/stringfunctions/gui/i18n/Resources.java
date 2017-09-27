@@ -1,4 +1,4 @@
-package sk.mslb.intellij.plugins.stringfunctions.gui;
+package sk.mslb.intellij.plugins.stringfunctions.gui.i18n;
 
 import java.io.IOException;
 import java.util.MissingResourceException;

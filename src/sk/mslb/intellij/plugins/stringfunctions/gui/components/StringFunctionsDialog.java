@@ -1,4 +1,4 @@
-package sk.mslb.intellij.plugins.stringfunctions.gui;
+package sk.mslb.intellij.plugins.stringfunctions.gui.components;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;

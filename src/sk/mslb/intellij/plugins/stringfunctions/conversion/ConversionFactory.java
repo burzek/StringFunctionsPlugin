@@ -1,5 +1,15 @@
 package sk.mslb.intellij.plugins.stringfunctions.conversion;
 
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.Base64Decode;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.Base64Encode;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.BinaryToString;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.HexToString;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.HtmlDecode;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.HtmlEncode;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.StringToBinary;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.StringToHex;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.UrlDecode;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.converters.UrlEncode;
 import sk.mslb.intellij.plugins.stringfunctions.data.Operation;
 
 /**
@@ -7,28 +17,28 @@ import sk.mslb.intellij.plugins.stringfunctions.data.Operation;
  */
 public class ConversionFactory {
 
-	public Conversion getTransformationAction(Operation transformation) {
+	public Converter getConverter(Operation transformation) {
 		switch (transformation) {
 			case STRING_TO_BIN:
-				return new StringToBinaryConversion();
+				return new StringToBinary();
 			case BIN_TO_STRING:
-				return new BinaryToStringConversion();
+				return new BinaryToString();
 			case STRING_TO_HEX:
-				return new StringToHexConversion();
+				return new StringToHex();
 			case HEX_TO_STRING:
-				return new HexToStringConversion();
+				return new HexToString();
 			case BASE_64_DECODE:
-				return new Base64DecodeConversion();
+				return new Base64Decode();
 			case BASE_64_ENCODE:
-				return new Base64EncodeConversion();
+				return new Base64Encode();
 			case URL_DECODE:
-				return new UrlDecodeConversion();
+				return new UrlDecode();
 			case URL_ENCODE:
-				return new UrlEncodeConversion();
+				return new UrlEncode();
 			case HTML_ENCODE:
-				return new HtmlEncodeConversion();
+				return new HtmlEncode();
 			case HTML_DECODE:
-				return new HtmlDecodeConversion();
+				return new HtmlDecode();
 			default:
 				throw new IllegalStateException("Invalid transformation:" + transformation);
 

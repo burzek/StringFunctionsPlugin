@@ -6,24 +6,27 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKeys;
+import sk.mslb.intellij.plugins.stringfunctions.data.DataProvider;
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKey;
 
 /**
  * @author boris.brinza 14-Apr-2017.
  */
 public class CopyToClipboardAction extends AbstractAction {
 
-	private TransformationProcessor processor;
+	private DataProvider dataProvider;
+	private UpdateStatusListener updateStatusListener;
 
-	public CopyToClipboardAction(TransformationProcessor processor) {
-		this.processor = processor;
+	public CopyToClipboardAction(DataProvider dataProvider, UpdateStatusListener updateStatusListener) {
+		this.dataProvider = dataProvider;
+		this.updateStatusListener = updateStatusListener;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		StringSelection stringSelection = new StringSelection(processor.getTransformationData().getConvertedText());
+		StringSelection stringSelection = new StringSelection(dataProvider.getConversionData().getConvertedText());
 		Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clpbrd.setContents(stringSelection, null);
-		processor.updateStatus(ResourceKeys.COPIED_TO_CLIPBOARD_STATUS);
+		updateStatusListener.updateStatus(ResourceKey.COPIED_TO_CLIPBOARD_STATUS);
 	}
 }

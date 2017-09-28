@@ -5,6 +5,6 @@ package sk.mslb.intellij.plugins.stringfunctions.gui.actions;
  */
 public interface TransformationRequestListener {
 
-	public void transformationRequested();
+	void transformationRequested();
 
 }

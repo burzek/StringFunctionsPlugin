@@ -1,17 +1,20 @@
-package sk.mslb.intellij.plugins.stringfunctions.conversion;
+package sk.mslb.intellij.plugins.stringfunctions.conversion.converters;
 
 import java.nio.charset.Charset;
+
+import sk.mslb.intellij.plugins.stringfunctions.conversion.ConversionResult;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.Converter;
 
 /**
  * @author boris.brinza 12-Apr-2017.
  */
-public class StringToHexConversion implements Conversion {
+public class StringToHex implements Converter {
 
 	private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
 
 	@Override
-	public String convert(String input) {
-		return asHex(input.getBytes(Charset.defaultCharset()));
+	public ConversionResult convert(String input) {
+		return new ConversionResult().withResult(asHex(input.getBytes(Charset.defaultCharset())));
 	}
 
 	private String asHex(byte[] buf) {

@@ -1,7 +1,6 @@
 package sk.mslb.intellij.plugins.stringfunctions.gui.i18n;
 
 import java.io.IOException;
-import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import javax.swing.*;
@@ -31,36 +30,32 @@ public class Resources {
 		}
 	}
 
-	public String getText(ResourceKeys resourceKey) {
-		try {
+	public String getText(ResourceKey resourceKey) {
+		if (resourceBundle.containsKey(resourceKey.getResourceKey())) {
 			return resourceBundle.getString(resourceKey.getResourceKey());
-		} catch (MissingResourceException e) {
+		} else {
 			PluginManager.getLogger().error("Cannot find resource with key:" + resourceKey.getResourceKey());
 			return "???" + resourceKey.getResourceKey() + "???";
 		}
 	}
 
-	public Icon getIcon(ResourceKeys resourceKey) {
-		try {
-			String iconPath = resourceBundle.getString(resourceKey.getResourceKey() + ".icon");
-			return IconLoader.getIcon(iconPath);
-		} catch (MissingResourceException e) {
-			//nevermind icon is not found
-			return null;
+	public Icon getIcon(ResourceKey resourceKey) {
+		Icon ret = null;
+		String key = resourceKey.getResourceKey() + ".icon";
+		if (resourceBundle.containsKey(key)) {
+			String iconPath = resourceBundle.getString(key);
+			ret = IconLoader.getIcon(iconPath);
 		}
-
+		return ret;
 	}
 
-	public Character getMnemonic(ResourceKeys resourceKey) {
+	public Character getMnemonic(ResourceKey resourceKey) {
 		Character ret = null;
-		try {
-			String mnemonicStr = resourceBundle.getString(resourceKey.getResourceKey() + ".mnemonic");
-			if (mnemonicStr != null && mnemonicStr.length() > 0) {
+		String key = resourceKey.getResourceKey() + ".mnemonic";
+		if (resourceBundle.containsKey(key)) {
+			String mnemonicStr = resourceBundle.getString(key);
+			if (mnemonicStr.length() > 0) {
 				ret = mnemonicStr.charAt(0);
-			}
-		} catch (MissingResourceException e) {
-			if (getText(resourceKey).contains("&")) {
-				PluginManager.getLogger().error("Cannot find mnemonic for mnemonic resource with key:" + resourceKey.getResourceKey());
 			}
 		}
 

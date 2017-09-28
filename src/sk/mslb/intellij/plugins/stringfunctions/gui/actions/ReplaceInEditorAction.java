@@ -5,22 +5,26 @@ import javax.swing.*;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 
-import sk.mslb.intellij.plugins.stringfunctions.data.TransformationData;
-import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKeys;
+import sk.mslb.intellij.plugins.stringfunctions.data.ConversionData;
+import sk.mslb.intellij.plugins.stringfunctions.data.DataProvider;
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKey;
 
 /**
  * @author boris.brinza 14-Apr-2017.
  */
 public class ReplaceInEditorAction extends AbstractAction {
-	private TransformationProcessor processor;
 
-	public ReplaceInEditorAction(TransformationProcessor processor) {
-		this.processor = processor;
+	private DataProvider dataProvider;
+	private UpdateStatusListener updateStatusListener;
+
+	public ReplaceInEditorAction(DataProvider dataProvider, UpdateStatusListener updateStatusListener) {
+		this.dataProvider = dataProvider;
+		this.updateStatusListener = updateStatusListener;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		TransformationData transformationData = processor.getTransformationData();
+		ConversionData transformationData = dataProvider.getConversionData();
 		Editor editor = transformationData.getOpenedEditor();
 		if (editor != null) {
 			String selectedText = editor.getSelectionModel().getSelectedText();
@@ -31,9 +35,9 @@ public class ReplaceInEditorAction extends AbstractAction {
 					editor.getDocument().replaceString(startPosition, endPosition, transformationData.getConvertedText());
 				});
 				//editor.getSelectionModel().removeSelection();
-				processor.updateStatus(ResourceKeys.REPLACE_DONE_STATUS);
+				updateStatusListener.updateStatus(ResourceKey.REPLACE_DONE_STATUS);
 			} else {
-				processor.updateStatus(ResourceKeys.NO_SELECTION_STATUS);
+				updateStatusListener.updateStatus(ResourceKey.NO_SELECTION_STATUS);
 			}
 		}
 	}

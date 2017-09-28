@@ -6,12 +6,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.components.JBLabelDecorator;
 import com.intellij.ui.components.JBPanel;
-import com.intellij.ui.components.JBRadioButton;
-import com.intellij.util.ui.JBUI;
 
 import sk.mslb.intellij.plugins.stringfunctions.data.Operation;
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationRequestListener;
-import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKeys;
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKey;
 import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.Resources;
 
 /**
@@ -21,14 +19,11 @@ public class GuiFactory {
 
 	private Resources resources = new Resources();
 
-	private GridBagConstraints templateGBC = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH,
-			GridBagConstraints.HORIZONTAL, JBUI.insetsRight(5), 0, 0);
-
 
 	public StringFunctionsDialog createMainDialog(Project project) {
 		StringFunctionsDialog dialogBuilder = new StringFunctionsDialog(project);
 		dialogBuilder.setCenterPanel(new MainPanel(dialogBuilder));
-		dialogBuilder.setTitle(resources.getText(ResourceKeys.WINDOW_TITLE));
+		dialogBuilder.setTitle(resources.getText(ResourceKey.WINDOW_TITLE));
 		dialogBuilder.removeAllActions();
 		dialogBuilder.resizable(false);
 
@@ -36,12 +31,12 @@ public class GuiFactory {
 	}
 
 
-	public void addBorder(JComponent component, ResourceKeys title) {
+	public void addBorder(JComponent component, ResourceKey title) {
 		component.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), resources.getText(title)));
 	}
 
 
-	public OperationSelector createOperationSelector(ResourceKeys label, Operation operation, TransformationRequestListener requestListener, ButtonGroup buttonGroup) {
+	public OperationSelector createOperationSelector(ResourceKey label, Operation operation, TransformationRequestListener requestListener, ButtonGroup buttonGroup) {
 		OperationSelector radioButton = new OperationSelector(operation, requestListener);
 		radioButton.setText(resources.getText(label));
 		addMnemonic(radioButton, label);
@@ -67,7 +62,7 @@ public class GuiFactory {
 	}
 
 
-	public JButton createActionButton(ResourceKeys label, Action action) {
+	public JButton createActionButton(ResourceKey label, Action action) {
 		JButton button = new JButton(resources.getText(label));
 		button.setAction(action);
 		button.setText(resources.getText(label));
@@ -76,9 +71,13 @@ public class GuiFactory {
 		return button;
 	}
 
-	public JBLabelDecorator createLabel(ResourceKeys label) {
+	public JBLabelDecorator createLabel(ResourceKey label) {
 		JBLabelDecorator field = JBLabelDecorator.createJBLabelDecorator(resources.getText(label));
 		return field;
+	}
+
+	public StatusLine createStatusLine() {
+		return new StatusLine();
 	}
 
 	public JBPanel createPanel(LayoutManager layoutManager) {
@@ -86,22 +85,20 @@ public class GuiFactory {
 		return panel;
 	}
 
-	public GridBagConstraints getGBC(int x, int y) {
-		GridBagConstraints gbc = (GridBagConstraints) templateGBC.clone();
-		gbc.gridx = x;
-		gbc.gridy = y;
-		return gbc;
+
+	public GridBagBuilder getGridBagBuilder() {
+		return new GridBagBuilder();
 	}
 
 
-	private void addMnemonic(AbstractButton component, ResourceKeys resource) {
+	private void addMnemonic(AbstractButton component, ResourceKey resource) {
 		Character mnemonicChar = resources.getMnemonic(resource);
 		if (mnemonicChar != null) {
 			component.setMnemonic(mnemonicChar);
 		}
 	}
 
-	private void addIcon(AbstractButton component, ResourceKeys resource) {
+	private void addIcon(AbstractButton component, ResourceKey resource) {
 		Icon icon = resources.getIcon(resource);
 		if (icon != null) {
 			component.setIcon(icon);

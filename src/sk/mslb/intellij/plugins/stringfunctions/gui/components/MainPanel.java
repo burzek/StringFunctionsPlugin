@@ -7,42 +7,57 @@ import javax.swing.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.ui.EditorTextField;
+import com.intellij.ui.JBColor;
 import org.jdesktop.swingx.VerticalLayout;
 
-import sk.mslb.intellij.plugins.stringfunctions.conversion.ConversionFactory;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.ConversionProcessor;
+import sk.mslb.intellij.plugins.stringfunctions.data.ConversionData;
+import sk.mslb.intellij.plugins.stringfunctions.data.DataProvider;
 import sk.mslb.intellij.plugins.stringfunctions.data.Operation;
-import sk.mslb.intellij.plugins.stringfunctions.data.TransformationData;
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.CloseAction;
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.CopyToClipboardAction;
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.ReplaceInEditorAction;
-import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationProcessor;
 import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationRequestListener;
-import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKeys;
+import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKey;
 
 /**
  * @author boris.brinza 12-Apr-2017.
  */
-public class MainPanel extends JPanel implements TransformationRequestListener, TransformationProcessor {
-	private StringFunctionsDialog dialog;
+public class MainPanel extends JPanel implements TransformationRequestListener, DataProvider {
+	private GuiFactory guiFactory;
 
-//	private EditorTextField inputText;
+	private StringFunctionsDialog dialog;
 	private InputTextEditor inputText;
 	private EditorTextField outputText;
 	private StatusLine statusLine;
 	private List<OperationSelector> operations = new ArrayList<>();
 
-
-	private GuiFactory guiFactory;
-
-	private Operation operation;
-
+	private ConversionProcessor conversionProcessor;
 
 	public MainPanel(StringFunctionsDialog dialog) {
 		this.dialog = dialog;
+		this.conversionProcessor = new ConversionProcessor(this);
 		initalizeGUI();
 		loadSelection();
 
 
+	}
+
+	@Override
+	public ConversionData getConversionData() {
+		return new ConversionData(dialog.getOpenedEditor(), inputText.getText(), outputText.getText(), getSelectedOperation());
+	}
+
+
+	@Override
+	public void transformationRequested() {
+		ConversionData transformationData = conversionProcessor.doConversion();
+		if (transformationData.isInvalidInputFlag()) {
+			inputText.setForeground(JBColor.RED);
+		} else {
+			inputText.setForeground(JBColor.foreground());
+		}
+		outputText.setText(transformationData.getConvertedText());
 	}
 
 	private void initalizeGUI() {
@@ -50,77 +65,57 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 		setLayout(new GridBagLayout());
 
 		//original text area
-		addComponent(guiFactory.createLabel(ResourceKeys.ORIGINAL_TEXT), 0, 0);
+		addComponent(guiFactory.createLabel(ResourceKey.ORIGINAL_TEXT), 0, 0);
 		inputText = guiFactory.createInputTextEditor(this);
 		addComponent(inputText, 1, 0);
 
 
 		//converted text area
-		addComponent(guiFactory.createLabel(ResourceKeys.CONVERTED_TEXT), 0, 1);
+		addComponent(guiFactory.createLabel(ResourceKey.CONVERTED_TEXT), 0, 1);
 		outputText = guiFactory.createEditorTextField();
 		addComponent(outputText, 1, 1);
-
-//		//convert button
-//		GridBagConstraints gbc = guiFactory.getGBC(1, 2);
-//		gbc.fill  = GridBagConstraints.VERTICAL;
-//		gbc.weightx = 0.1;
-//		gbc.anchor = GridBagConstraints.EAST;
-//		addComponent(guiFactory.createActionButton(ResourceKeys.CONVERT_ACTION, new TransformationAction(this)), gbc);
-
-//		GridBagConstraints gbc = guiFactory.getGBC(1, 2);
-//		gbc.fill  = GridBagConstraints.VERTICAL;
-//		gbc.weightx = 0.05;
-//		gbc.weighty = 0.05;
-//		gbc.anchor = GridBagConstraints.EAST;
-//		addComponent(guiFactory.createActionButton(ResourceKeys.SWITCH_EDITORS, new SwitchEditorContentAction(this)), gbc);
 
 		//conversion actions
 		ButtonGroup buttonGroup = new ButtonGroup();
 		final JPanel radioPanel = guiFactory.createPanel(new VerticalLayout(0));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.STRING_TO_HEX_ACTION, Operation.STRING_TO_HEX, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.HEX_TO_STRING_ACTION, Operation.HEX_TO_STRING, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.STRING_TO_BINARY_ACTION, Operation.STRING_TO_BIN, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.BINARY_TO_STRING_ACTION, Operation.BIN_TO_STRING, this, buttonGroup));
-		operations.forEach(s -> radioPanel.add(s));
-		guiFactory.addBorder(radioPanel, ResourceKeys.CONVERSION_TITLE);
+		operations.add(guiFactory.createOperationSelector(ResourceKey.STRING_TO_HEX_ACTION, Operation.STRING_TO_HEX, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.HEX_TO_STRING_ACTION, Operation.HEX_TO_STRING, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.STRING_TO_BINARY_ACTION, Operation.STRING_TO_BIN, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.BINARY_TO_STRING_ACTION, Operation.BIN_TO_STRING, this, buttonGroup));
+		operations.forEach(radioPanel::add);
+		guiFactory.addBorder(radioPanel, ResourceKey.CONVERSION_TITLE);
 		addComponent(radioPanel, 0, 3);
 
 
 		//encoding actions
 		final JPanel radioPanel2 = guiFactory.createPanel(new VerticalLayout(0));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.BASE_64_ENCODE_ACTION, Operation.BASE_64_ENCODE, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.BASE_64_DECODE_ACTION, Operation.BASE_64_DECODE, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.URL_ENCODE_ACTION, Operation.URL_ENCODE, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.URL_DECODE_ACTION, Operation.URL_DECODE, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.HTML_ENCODE_ACTION, Operation.HTML_ENCODE, this, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKeys.HTML_DECODE_ACTION, Operation.HTML_DECODE, this, buttonGroup));
-		operations.subList(4, operations.size()).forEach(s -> radioPanel2.add(s));
-		guiFactory.addBorder(radioPanel2, ResourceKeys.CODING_TITLE);
+		operations.add(guiFactory.createOperationSelector(ResourceKey.BASE_64_ENCODE_ACTION, Operation.BASE_64_ENCODE, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.BASE_64_DECODE_ACTION, Operation.BASE_64_DECODE, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.URL_ENCODE_ACTION, Operation.URL_ENCODE, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.URL_DECODE_ACTION, Operation.URL_DECODE, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.HTML_ENCODE_ACTION, Operation.HTML_ENCODE, this, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.HTML_DECODE_ACTION, Operation.HTML_DECODE, this, buttonGroup));
+		operations.subList(4, operations.size()).forEach(radioPanel2::add);
+		guiFactory.addBorder(radioPanel2, ResourceKey.CODING_TITLE);
 		addComponent(radioPanel2, 1, 3);
+		operations.get(0).setSelected(true);	//select first button
 
-		AbstractButton defaultButton = buttonGroup.getElements().nextElement();
-		defaultButton.setSelected(true);	//select first button
-//		operation = ((OperationSelectionAction) defaultButton.getAction()).getOperation();
+		//add status line
+		statusLine = guiFactory.createStatusLine();
+		GridBagConstraints gbc = guiFactory.getGridBagBuilder().withPos(0, 5).withAnchor(GridBagConstraints.CENTER).withGridWidth(2).toGBC();
+		add(statusLine, gbc);
 
 		//actions
 		JPanel buttonPanel = guiFactory.createPanel(new FlowLayout(FlowLayout.LEFT));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.REPLACE_ACTION, new ReplaceInEditorAction(this)));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.COPY_TO_CPB_ACTION, new CopyToClipboardAction(this)));
-		buttonPanel.add(guiFactory.createActionButton(ResourceKeys.CLOSE_ACTION, new CloseAction(dialog)));
-		GridBagConstraints gbc = guiFactory.getGBC(0, 4);
-		gbc.fill  = GridBagConstraints.VERTICAL;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.gridwidth = 2;
-		addComponent(buttonPanel, gbc);
-
-		//add status line
-		statusLine = new StatusLine();
-		gbc = guiFactory.getGBC(0, 5);
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.gridwidth = 2;
-		addComponent(statusLine, gbc);
+		buttonPanel.add(guiFactory.createActionButton(ResourceKey.REPLACE_ACTION, new ReplaceInEditorAction(this, statusLine)));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKey.COPY_TO_CPB_ACTION, new CopyToClipboardAction(this, statusLine)));
+		buttonPanel.add(guiFactory.createActionButton(ResourceKey.CLOSE_ACTION, new CloseAction(dialog)));
+		gbc = guiFactory.getGridBagBuilder().withPos(0, 4).withFill(GridBagConstraints.VERTICAL).withAnchor(GridBagConstraints.WEST).withGridWidth(2).toGBC();
+		add(buttonPanel, gbc);
 
 	}
+
+
 
 
 	private void loadSelection() {
@@ -134,44 +129,11 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 	}
 
 	private void addComponent(JComponent componentToAdd, int gridX, int gridY) {
-		add(componentToAdd, guiFactory.getGBC(gridX, gridY));
-	}
-
-	private void addComponent(JComponent componentToAdd, GridBagConstraints gbc) {
-		add(componentToAdd, gbc);
-	}
-
-//
-//	@Override
-//	public void operationSelected(Operation operation) {
-//		this.operation = operation;
-//		transformationRequested();
-//	}
-
-	@Override
-	public void updateData(TransformationData data) {
-		inputText.setText(data.getOriginalText());
-		outputText.setText(data.getConvertedText());
-	}
-
-	@Override
-	public TransformationData getTransformationData() {
-		return new TransformationData(dialog.getOpenedEditor(), inputText.getText(), outputText.getText(), operation);
-	}
-
-	@Override
-	public void updateStatus(ResourceKeys status) {
-		statusLine.updateStatus(status);
-	}
-
-	@Override
-	public void transformationRequested() {
-		String converted = new ConversionFactory().getTransformationAction(getSelectedOperation()).convert(inputText.getDocument().getText());
-		outputText.setText(converted);
+		add(componentToAdd, guiFactory.getGridBagBuilder().withPos(gridX, gridY).toGBC());
 	}
 
 
 	private Operation getSelectedOperation() {
-		return operations.stream().filter(AbstractButton::isSelected).findFirst().map(s -> getSelectedOperation()).orElseThrow(IllegalStateException::new);
+		return operations.stream().filter(AbstractButton::isSelected).findFirst().map(OperationSelector::getOperation).orElseThrow(IllegalStateException::new);
 	}
 }

@@ -1,19 +1,19 @@
-package sk.mslb.intellij.plugins.stringfunctions.conversion;
+package sk.mslb.intellij.plugins.stringfunctions.conversion.converters;
 
-import java.nio.charset.Charset;
-import java.util.Base64;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.ConversionResult;
+import sk.mslb.intellij.plugins.stringfunctions.conversion.Converter;
 
 /**
  * @author boris.brinza 12-Apr-2017.
  */
-public class HtmlEncodeConversion implements Conversion {
+public class HtmlEncode implements Converter {
 	@Override
-	public String convert(String input) {
-		return htmlEscape(input, true);
+	public ConversionResult convert(String input) {
+		return new ConversionResult().withResult(htmlEscape(input));
 	}
 
 
-	private String htmlEscape(String str, boolean avoidDoubleEscape) {
+	private String htmlEscape(String str) {
 		if (str == null || str.length() == 0) {
 			return str;
 		}
@@ -23,7 +23,7 @@ public class HtmlEncodeConversion implements Conversion {
 			switch (c) {
 				case '&':
 					// Avoid double escaping if already escaped
-					if (avoidDoubleEscape && (isHtmlCharEntityRef(str, i))) {
+					if (isHtmlCharEntityRef(str, i)) {
 						sb.append(c);
 					} else {
 						sb.append("&amp;");

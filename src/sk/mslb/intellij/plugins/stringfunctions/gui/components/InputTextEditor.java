@@ -18,12 +18,19 @@ public class InputTextEditor extends EditorTextField {
 
 	public InputTextEditor(TransformationRequestListener trl) {
 		super();
+		initializeGUI();
 		getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void documentChanged(DocumentEvent event) {
 				trl.transformationRequested();
 			}
 		});
+	}
+
+	private void initializeGUI() {
+		setOneLineMode(false);
+		setPreferredSize(new Dimension(300, 50));
+		setMinimumSize(new Dimension(300, 50));
 	}
 
 	public void showWarning(boolean showWarning) {

@@ -54,11 +54,7 @@ public class GuiFactory {
 	}
 
 	public InputTextEditor createInputTextEditor(TransformationRequestListener requestListener) {
-		InputTextEditor etf = new InputTextEditor(requestListener);
-		etf.setOneLineMode(false);
-		etf.setPreferredSize(new Dimension(300, 50));
-		etf.setMinimumSize(new Dimension(300, 50));
-		return etf;
+		return new InputTextEditor(requestListener);
 	}
 
 

@@ -1,7 +1,5 @@
 package sk.mslb.intellij.plugins.stringfunctions.conversion.converters;
 
-import java.util.Arrays;
-
 import sk.mslb.intellij.plugins.stringfunctions.conversion.ConversionResult;
 import sk.mslb.intellij.plugins.stringfunctions.conversion.Converter;
 
@@ -20,10 +18,22 @@ public class BinaryToString implements Converter {
 
 			String tmpStr = input.length() % 8 == 0 ? input : input.substring(0, 8 * (input.length() / 8));
 			StringBuilder sb = new StringBuilder();
-			Arrays.stream(tmpStr.split("(?<=\\G.{8})")).forEach(s -> sb.append((char) Integer.parseInt(s, 2)));
+			for (String str : tmpStr.split("(?<=\\G.{8})")) {
+				if (!isValidBinary(str)) {
+					conversionResult = conversionResult.withError();
+					sb.append("?");
+				} else {
+					sb.append((char) Integer.parseInt(str, 2));
+				}
+			}
 			conversionResult = conversionResult.withResult(sb.toString());
 		}
 
 		return conversionResult;
+	}
+
+	private boolean isValidBinary(String str) {
+		return str.length() == 8 &&
+				str.chars().allMatch(c -> c == '0' || c == '1');
 	}
 }

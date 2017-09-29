@@ -7,7 +7,6 @@ import javax.swing.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.ui.EditorTextField;
-import com.intellij.ui.JBColor;
 import org.jdesktop.swingx.VerticalLayout;
 
 import sk.mslb.intellij.plugins.stringfunctions.conversion.ConversionProcessor;
@@ -29,7 +28,6 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 	private StringFunctionsDialog dialog;
 	private InputTextEditor inputText;
 	private EditorTextField outputText;
-	private StatusLine statusLine;
 	private List<OperationSelector> operations = new ArrayList<>();
 
 	private ConversionProcessor conversionProcessor;
@@ -40,7 +38,6 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 		initalizeGUI();
 		loadSelection();
 
-
 	}
 
 	@Override
@@ -48,15 +45,10 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 		return new ConversionData(dialog.getOpenedEditor(), inputText.getText(), outputText.getText(), getSelectedOperation());
 	}
 
-
 	@Override
 	public void transformationRequested() {
 		ConversionData transformationData = conversionProcessor.doConversion();
-		if (transformationData.isInvalidInputFlag()) {
-			inputText.setForeground(JBColor.RED);
-		} else {
-			inputText.setForeground(JBColor.foreground());
-		}
+		inputText.showWarning(transformationData.isInvalidInputFlag());
 		outputText.setText(transformationData.getConvertedText());
 	}
 
@@ -68,7 +60,6 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 		addComponent(guiFactory.createLabel(ResourceKey.ORIGINAL_TEXT), 0, 0);
 		inputText = guiFactory.createInputTextEditor(this);
 		addComponent(inputText, 1, 0);
-
 
 		//converted text area
 		addComponent(guiFactory.createLabel(ResourceKey.CONVERTED_TEXT), 0, 1);
@@ -86,7 +77,6 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 		guiFactory.addBorder(radioPanel, ResourceKey.CONVERSION_TITLE);
 		addComponent(radioPanel, 0, 3);
 
-
 		//encoding actions
 		final JPanel radioPanel2 = guiFactory.createPanel(new VerticalLayout(0));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.BASE_64_ENCODE_ACTION, Operation.BASE_64_ENCODE, this, buttonGroup));
@@ -98,25 +88,29 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 		operations.subList(4, operations.size()).forEach(radioPanel2::add);
 		guiFactory.addBorder(radioPanel2, ResourceKey.CODING_TITLE);
 		addComponent(radioPanel2, 1, 3);
-		operations.get(0).setSelected(true);	//select first button
+		operations.get(0).setSelected(true);    //select first button
 
 		//add status line
-		statusLine = guiFactory.createStatusLine();
-		GridBagConstraints gbc = guiFactory.getGridBagBuilder().withPos(0, 5).withAnchor(GridBagConstraints.CENTER).withGridWidth(2).toGBC();
-		add(statusLine, gbc);
+		StatusLine statusLine = guiFactory.createStatusLine();
+		add(statusLine, guiFactory.getGridBagBuilder()
+				.withPos(0, 5)
+				.withAnchor(GridBagConstraints.CENTER)
+				.withGridWidth(2)
+				.toGBC());
 
 		//actions
 		JPanel buttonPanel = guiFactory.createPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKey.REPLACE_ACTION, new ReplaceInEditorAction(this, statusLine)));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKey.COPY_TO_CPB_ACTION, new CopyToClipboardAction(this, statusLine)));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKey.CLOSE_ACTION, new CloseAction(dialog)));
-		gbc = guiFactory.getGridBagBuilder().withPos(0, 4).withFill(GridBagConstraints.VERTICAL).withAnchor(GridBagConstraints.WEST).withGridWidth(2).toGBC();
-		add(buttonPanel, gbc);
+		add(buttonPanel, guiFactory.getGridBagBuilder()
+						.withPos(0, 4)
+						.withFill(GridBagConstraints.VERTICAL)
+						.withAnchor(GridBagConstraints.WEST)
+						.withGridWidth(2)
+						.toGBC());
 
 	}
-
-
-
 
 	private void loadSelection() {
 		Editor editor = FileEditorManager.getInstance(dialog.getProject()).getSelectedTextEditor();
@@ -132,8 +126,8 @@ public class MainPanel extends JPanel implements TransformationRequestListener, 
 		add(componentToAdd, guiFactory.getGridBagBuilder().withPos(gridX, gridY).toGBC());
 	}
 
-
 	private Operation getSelectedOperation() {
-		return operations.stream().filter(AbstractButton::isSelected).findFirst().map(OperationSelector::getOperation).orElseThrow(IllegalStateException::new);
+		return operations.stream().filter(AbstractButton::isSelected).findFirst().map(OperationSelector::getOperation)
+				.orElseThrow(IllegalStateException::new);
 	}
 }

@@ -7,8 +7,7 @@ import javax.swing.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.ui.EditorTextField;
-import org.jdesktop.swingx.HorizontalLayout;
-import org.jdesktop.swingx.VerticalLayout;
+import com.intellij.ui.components.panels.VerticalLayout;
 
 import sk.mslb.intellij.plugins.stringtools.StringToolsController;
 import sk.mslb.intellij.plugins.stringtools.data.Operation;
@@ -43,7 +42,6 @@ public class MainPanel extends JPanel {
 		outputText.setText(content);
 	}
 
-
 	public String getInputContent() {
 		return inputText.getText();
 	}
@@ -72,16 +70,22 @@ public class MainPanel extends JPanel {
 		add(outputText, guiFactory.getGridBagBuilder().withPos(1, 1).toGBC());
 
 		//actions panel
-		final JPanel actionsPanel = guiFactory.createPanel(new HorizontalLayout(0));
+		final JPanel actionsPanel = guiFactory.createPanel(new GridLayout(1, 3));
 		//conversion actions
 		ButtonGroup buttonGroup = new ButtonGroup();
 		final JPanel radioPanel = guiFactory.createPanel(new VerticalLayout(0));
-		operations.add(guiFactory.createOperationSelector(ResourceKey.STRING_TO_HEX_ACTION, Operation.STRING_TO_HEX, controller, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKey.HEX_TO_STRING_ACTION, Operation.HEX_TO_STRING, controller, buttonGroup));
+		operations.add(guiFactory
+				.createOperationSelector(ResourceKey.STRING_TO_HEX_ACTION, Operation.STRING_TO_HEX, controller, buttonGroup));
+		operations.add(guiFactory
+				.createOperationSelector(ResourceKey.HEX_TO_STRING_ACTION, Operation.HEX_TO_STRING, controller, buttonGroup));
 		operations.add(guiFactory
 				.createOperationSelector(ResourceKey.STRING_TO_BINARY_ACTION, Operation.STRING_TO_BIN, controller, buttonGroup));
 		operations.add(guiFactory
 				.createOperationSelector(ResourceKey.BINARY_TO_STRING_ACTION, Operation.BIN_TO_STRING, controller, buttonGroup));
+		operations.add(guiFactory
+				.createOperationSelector(ResourceKey.STRING_TO_OCT_ACTION, Operation.STRING_TO_OCT, controller, buttonGroup));
+		operations.add(guiFactory
+				.createOperationSelector(ResourceKey.OCT_TO_STRING_ACTION, Operation.OCT_TO_STRING, controller, buttonGroup));
 		operations.forEach(radioPanel::add);
 		guiFactory.addBorder(radioPanel, ResourceKey.CONVERSION_TITLE);
 		actionsPanel.add(radioPanel);
@@ -96,7 +100,7 @@ public class MainPanel extends JPanel {
 		operations.add(guiFactory.createOperationSelector(ResourceKey.URL_DECODE_ACTION, Operation.URL_DECODE, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.HTML_ENCODE_ACTION, Operation.HTML_ENCODE, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.HTML_DECODE_ACTION, Operation.HTML_DECODE, controller, buttonGroup));
-		operations.subList(4, operations.size()).forEach(radioPanel2::add);
+		operations.subList(6, operations.size()).forEach(radioPanel2::add);
 		guiFactory.addBorder(radioPanel2, ResourceKey.CODING_TITLE);
 		actionsPanel.add(radioPanel2);
 
@@ -109,10 +113,10 @@ public class MainPanel extends JPanel {
 		operations.add(guiFactory.createOperationSelector(ResourceKey.SHA_256_ACTION, Operation.SHA256_HASH, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.SHA_512_ACTION, Operation.SHA512_HASH, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.CRC32_ACTION, Operation.CRC32, controller, buttonGroup));
-		operations.subList(10, operations.size()).forEach(radioPanel3::add);
+		operations.subList(12, operations.size()).forEach(radioPanel3::add);
 		guiFactory.addBorder(radioPanel3, ResourceKey.HASH_CRC_TITLE);
 		actionsPanel.add(radioPanel3);
-		add(actionsPanel, guiFactory.getGridBagBuilder().withPos(0, 3).withGridWidth(3).toGBC());
+		add(actionsPanel, guiFactory.getGridBagBuilder().withPos(0, 3).withGridWidth(3).withAnchor(GridBagConstraints.CENTER).toGBC());
 
 		operations.get(0).setSelected(true);    //select first button
 
@@ -125,7 +129,8 @@ public class MainPanel extends JPanel {
 		buttonPanel.add(guiFactory.createActionButton(ResourceKey.REPLACE_ACTION, new ReplaceInEditorAction(controller, statusLine)));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKey.COPY_TO_CPB_ACTION, new CopyToClipboardAction(controller, statusLine)));
 		buttonPanel.add(guiFactory.createActionButton(ResourceKey.CLOSE_ACTION, new CloseAction(controller)));
-		add(buttonPanel, guiFactory.getGridBagBuilder().withPos(0, 4).withFill(GridBagConstraints.VERTICAL).withAnchor(GridBagConstraints.WEST)
+		add(buttonPanel,
+				guiFactory.getGridBagBuilder().withPos(0, 4).withFill(GridBagConstraints.VERTICAL).withAnchor(GridBagConstraints.WEST)
 						.withGridWidth(2).toGBC());
 
 	}

@@ -18,6 +18,9 @@ public class ResourceKey {
 	public static final ResourceKey STRING_TO_HEX_ACTION = new ResourceKey("string.to.hex.action");
 	public static final ResourceKey BINARY_TO_STRING_ACTION = new ResourceKey("bin.to.string.action");
 	public static final ResourceKey STRING_TO_BINARY_ACTION = new ResourceKey("string.to.bin.action");
+	public static final ResourceKey OCT_TO_STRING_ACTION = new ResourceKey("oct.to.string.action");
+	public static final ResourceKey STRING_TO_OCT_ACTION = new ResourceKey("string.to.oct.action");
+
 	public static final ResourceKey BASE_64_ENCODE_ACTION = new ResourceKey("base64.encode.action");
 	public static final ResourceKey BASE_64_DECODE_ACTION = new ResourceKey("base64.decode.action");
 	public static final ResourceKey URL_ENCODE_ACTION = new ResourceKey("url.encode.action");

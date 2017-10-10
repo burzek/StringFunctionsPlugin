@@ -11,6 +11,7 @@ import sk.mslb.intellij.plugins.stringtools.conversion.converters.MD5Hash;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.ROT13String;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.ReverseString;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.SHA256Hash;
+import sk.mslb.intellij.plugins.stringtools.conversion.converters.SHA512Hash;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.StringToBinary;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.StringToHex;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.UrlDecode;
@@ -53,7 +54,7 @@ public class ConversionFactory {
 			case SHA256_HASH:
 				return new SHA256Hash();
 			case SHA512_HASH:
-				return new SHA256Hash();
+				return new SHA512Hash();
 			case CRC32:
 				return new CRC32CheckSum();
 

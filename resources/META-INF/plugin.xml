@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>StringToolsPlugin</id>
     <name>String Tools</name>
-    <version>1.0</version>
+    <version>2.0</version>
     <vendor email="boris.brinza@gmail.com" url="https://www.linkedin.com/in/boris-brinza-5768846/">MSLB</vendor>
 
     <description><![CDATA[
@@ -11,10 +11,15 @@
     </description>
 
     <change-notes><![CDATA[
-          v1.0<br>
+          v2.0<br>
           <small>
-            <ul>
-               <li>Initial release</li>
+            <ul>Added new operations
+               <li>String reverse</li>
+               <li>ROT13</li>
+               <li>MD5 hash</li>
+               <li>SHA256 hash</li>
+               <li>SHA512 hash</li>
+               <li>CRC32 checksum</li>
             </ul>
           </small>
           ]]>

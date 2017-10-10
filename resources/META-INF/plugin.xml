@@ -25,7 +25,7 @@
 
 
     <actions>
-        <action class="sk.mslb.intellij.plugins.stringfunctions.StringToolsPluginAction" id="StringTools" text="String Tools">
+        <action class="sk.mslb.intellij.plugins.stringtools.StringToolsPluginAction" id="StringTools" text="String Tools">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <keyboard-shortcut first-keystroke="control shift S" second-keystroke="T" keymap="$default"/>
         </action>

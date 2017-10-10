@@ -113,6 +113,8 @@ public class MainPanel extends JPanel {
 		operations.add(guiFactory.createOperationSelector(ResourceKey.SHA_256_ACTION, Operation.SHA256_HASH, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.SHA_512_ACTION, Operation.SHA512_HASH, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.CRC32_ACTION, Operation.CRC32, controller, buttonGroup));
+		operations.add(guiFactory.createOperationSelector(ResourceKey.LUHN_DIGIT_GEN_ACTION, Operation.LUHN_DIGIT_GENERATOR, controller, buttonGroup));
+
 		operations.subList(12, operations.size()).forEach(radioPanel3::add);
 		guiFactory.addBorder(radioPanel3, ResourceKey.HASH_CRC_TITLE);
 		actionsPanel.add(radioPanel3);

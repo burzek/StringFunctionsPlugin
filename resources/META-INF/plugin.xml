@@ -20,6 +20,7 @@
                <li>SHA256 hash</li>
                <li>SHA512 hash</li>
                <li>CRC32 checksum</li>
+               <li>LUHN digit generator</li>
             </ul>
           </small>
           ]]>

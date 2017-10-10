@@ -33,6 +33,7 @@ public class ResourceKey {
 	public static final ResourceKey SHA_256_ACTION = new ResourceKey("sha256.hash.action");
 	public static final ResourceKey SHA_512_ACTION = new ResourceKey("sha512.hash.action");
 	public static final ResourceKey CRC32_ACTION = new ResourceKey("crc32.action");
+	public static final ResourceKey LUHN_DIGIT_GEN_ACTION = new ResourceKey("luhn.digit.generator.action");
 
 
 	public static final ResourceKey REPLACE_ACTION = new ResourceKey("replace.action");

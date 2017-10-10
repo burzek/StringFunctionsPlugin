@@ -64,7 +64,7 @@ public class ConversionFactory {
 				return new SHA512Hash();
 			case CRC32:
 				return new CRC32CheckSum();
-			case LUHN_DIGIT_APPENDER:
+			case LUHN_DIGIT_GENERATOR:
 				return new LuhnDigitAppender();
 			default:
 				throw new IllegalStateException("Invalid transformation:" + transformation);

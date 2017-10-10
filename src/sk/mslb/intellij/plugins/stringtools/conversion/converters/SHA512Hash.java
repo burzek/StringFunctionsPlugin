@@ -8,4 +8,5 @@ public class SHA512Hash extends HashConverter {
 	protected HASH_TYPE getHashType() {
 		return HASH_TYPE.SHA_512;
 	}
+
 }

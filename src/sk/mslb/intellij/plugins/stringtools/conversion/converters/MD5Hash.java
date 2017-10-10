@@ -8,4 +8,6 @@ public class MD5Hash extends HashConverter {
 	protected HASH_TYPE getHashType() {
 		return HASH_TYPE.MD5;
 	}
+
+
 }

@@ -14,7 +14,7 @@ import sk.mslb.intellij.plugins.stringtools.conversion.Converter;
  */
 public abstract class HashConverter implements Converter {
 	protected enum HASH_TYPE {
-		MD5("MD5"), SHA_256("SHA256"), SHA_512("SHA512");
+		MD5("MD5"), SHA_256("SHA-256"), SHA_512("SHA-512");
 
 		private String algName;
 
@@ -32,7 +32,12 @@ public abstract class HashConverter implements Converter {
 		try {
 			MessageDigest messageDigest = getMessageDigestInstance();
 			byte[] dig = messageDigest.digest(input.getBytes(Charset.defaultCharset()));
-			return new ConversionResult().withResult(new String(dig, Charset.defaultCharset()));
+			StringBuilder sb = new StringBuilder(dig.length * 2);
+			for(byte b: dig) {
+				sb.append(String.format("%02x", b));
+			}
+
+			return new ConversionResult().withResult(sb.toString());
 		} catch (NoSuchAlgorithmException e) {
 			return new ConversionResult().withResult("???").withError();
 		}

@@ -8,4 +8,6 @@ public class SHA256Hash extends HashConverter {
 	protected HASH_TYPE getHashType() {
 		return HASH_TYPE.SHA_256;
 	}
+
+
 }

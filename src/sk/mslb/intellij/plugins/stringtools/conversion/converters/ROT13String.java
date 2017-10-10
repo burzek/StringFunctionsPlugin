@@ -11,7 +11,16 @@ public class ROT13String implements Converter {
 	@Override
 	public ConversionResult convert(String input) {
 		StringBuilder rot13 = new StringBuilder();
-		input.chars().map(c -> ((char) ((c + 13) % 'a'))).forEach(rot13::append);
+		input.chars().map(c ->  {
+			if (c >= 'a' && c <= 'z') {
+				return 'a' + (((c - 'a' + 13) % 26));
+			} else if (c >= 'A' && c <= 'Z') {
+				return 'A' + (((c - 'A' + 13) % 26));
+			} else {
+				return c;
+			}
+			}).forEach(c -> rot13.append((char) c));
 		return new ConversionResult().withResult(rot13.toString());
 	}
+
 }

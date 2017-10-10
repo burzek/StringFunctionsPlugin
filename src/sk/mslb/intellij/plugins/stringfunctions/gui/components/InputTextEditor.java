@@ -8,7 +8,7 @@ import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.EditorTextField;
 
-import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationRequestListener;
+import sk.mslb.intellij.plugins.stringfunctions.gui.actions.ActionsRequestListener;
 
 /**
  * @author boris.brinza
@@ -16,7 +16,7 @@ import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationReques
 public class InputTextEditor extends EditorTextField {
 	private boolean showWarning;
 
-	public InputTextEditor(TransformationRequestListener trl) {
+	public InputTextEditor(ActionsRequestListener trl) {
 		super();
 		initializeGUI();
 		getDocument().addDocumentListener(new DocumentListener() {

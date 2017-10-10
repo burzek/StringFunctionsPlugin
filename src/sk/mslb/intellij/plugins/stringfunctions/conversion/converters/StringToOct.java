@@ -14,7 +14,7 @@ public class StringToOct implements Converter {
 
 	@Override
 	public ConversionResult convert(String input) {
-		return new ConversionResult().withResult(asOct(input.getBytes(Charset.defaultCharset())));
+		return new ConversionResult().withResult(asOct(input.getBytes(Charset.forName("ASCII"))));
 	}
 
 	private String asOct(byte[] buf) {

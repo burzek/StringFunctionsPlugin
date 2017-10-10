@@ -14,7 +14,7 @@ public class StringToHex implements Converter {
 
 	@Override
 	public ConversionResult convert(String input) {
-		return new ConversionResult().withResult(asHex(input.getBytes(Charset.defaultCharset())));
+		return new ConversionResult().withResult(asHex(input.getBytes(Charset.forName("ASCII"))));
 	}
 
 	private String asHex(byte[] buf) {

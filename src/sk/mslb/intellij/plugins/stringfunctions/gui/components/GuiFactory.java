@@ -8,7 +8,7 @@ import com.intellij.ui.components.JBLabelDecorator;
 import com.intellij.ui.components.JBPanel;
 
 import sk.mslb.intellij.plugins.stringfunctions.data.Operation;
-import sk.mslb.intellij.plugins.stringfunctions.gui.actions.TransformationRequestListener;
+import sk.mslb.intellij.plugins.stringfunctions.gui.actions.ActionsRequestListener;
 import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.ResourceKey;
 import sk.mslb.intellij.plugins.stringfunctions.gui.i18n.Resources;
 
@@ -20,13 +20,9 @@ public class GuiFactory {
 	private Resources resources = new Resources();
 
 
-	public StringFunctionsDialog createMainDialog(Project project) {
-		StringFunctionsDialog dialogBuilder = new StringFunctionsDialog(project);
-		dialogBuilder.setCenterPanel(new MainPanel(dialogBuilder));
+	public StringToolsDialog createMainDialog(Project project) {
+		StringToolsDialog dialogBuilder = new StringToolsDialog(project);
 		dialogBuilder.setTitle(resources.getText(ResourceKey.WINDOW_TITLE));
-		dialogBuilder.removeAllActions();
-		dialogBuilder.resizable(false);
-
 		return dialogBuilder;
 	}
 
@@ -36,7 +32,7 @@ public class GuiFactory {
 	}
 
 
-	public OperationSelector createOperationSelector(ResourceKey label, Operation operation, TransformationRequestListener requestListener, ButtonGroup buttonGroup) {
+	public OperationSelector createOperationSelector(ResourceKey label, Operation operation, ActionsRequestListener requestListener, ButtonGroup buttonGroup) {
 		OperationSelector radioButton = new OperationSelector(operation, requestListener);
 		radioButton.setText(resources.getText(label));
 		addMnemonic(radioButton, label);
@@ -48,12 +44,12 @@ public class GuiFactory {
 	public EditorTextField createEditorTextField() {
 		EditorTextField etf = new EditorTextField();
 		etf.setOneLineMode(false);
-		etf.setPreferredSize(new Dimension(300, 50));
-		etf.setMinimumSize(new Dimension(300, 50));
+		etf.setPreferredSize(new Dimension(350, 50));
+		etf.setMinimumSize(new Dimension(350, 50));
 		return etf;
 	}
 
-	public InputTextEditor createInputTextEditor(TransformationRequestListener requestListener) {
+	public InputTextEditor createInputTextEditor(ActionsRequestListener requestListener) {
 		return new InputTextEditor(requestListener);
 	}
 

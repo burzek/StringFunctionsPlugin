@@ -3,8 +3,8 @@ package sk.mslb.intellij.plugins.stringfunctions.gui.actions;
 /**
  * @author boris.brinza
  */
-public interface TransformationRequestListener {
+public interface ActionsRequestListener {
 
 	void transformationRequested();
-
+	void exitRequested();
 }

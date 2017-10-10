@@ -15,24 +15,30 @@ public class HtmlDecode implements Converter {
 		return new ConversionResult().withResult(htmlUnescape(input));
 	}
 
-
 	private String htmlUnescape(String htmlString) {
-		String ret = htmlString
-				.replaceAll("&amp;", "&")
-				.replaceAll("&quot;", "\"")
-				.replaceAll("&lt;", "<")
-				.replaceAll("&gt;", ">");
-
-		Matcher matcher = Pattern.compile(".*(&#\\d+;).*").matcher(ret);
-		if (matcher.groupCount() == 1) {
-
-
+		Matcher matcher = Pattern.compile("(&#\\d+;|&amp;|&quot;|&lt;|&gt;)").matcher(htmlString);
+		while (matcher.find()) {
+			String element = matcher.group(1);
+			String replacement = null;
+			switch (element) {
+				case "&amp;":
+					replacement = "&";
+					break;
+				case "&quot;":
+					replacement = "'";
+					break;
+				case "&lt;":
+					replacement = "<";
+					break;
+				case "&gt;":
+					replacement = ">";
+					break;
+				default:
+					replacement = String.valueOf((char) (Integer.parseInt(element.substring(2, element.length() - 1))));
+			}
+			htmlString = htmlString.replaceAll(element, replacement);
 		}
-		return ret;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(new HtmlDecode().convert("abc&amp;abc;&lt;&gt;abc&#65;&#66;&#67;").getResult());
+		return htmlString;
 	}
 
 }

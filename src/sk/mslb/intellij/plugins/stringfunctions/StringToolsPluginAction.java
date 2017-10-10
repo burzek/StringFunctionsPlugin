@@ -9,7 +9,7 @@ import sk.mslb.intellij.plugins.stringfunctions.gui.components.GuiFactory;
 /**
  * @author boris.brinza 10-Apr-2017.
  */
-public class StringFunctionsAction extends AnAction {
+public class StringToolsPluginAction extends AnAction {
 
 
 	@Override

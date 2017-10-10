@@ -45,9 +45,16 @@ public class HtmlEncode implements Converter {
 					sb.append("&#47;");
 					break;
 				default:
-					sb.append(c);
+					if (c > 127) {
+						sb.append("&#").append((int) c).append(';');
+					} else {
+						sb.append(c);
+					}
 			}
+
+
 		}
+
 		return sb.toString();
 	}
 

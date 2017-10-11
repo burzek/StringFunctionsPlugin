@@ -4,9 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.ui.EditorTextField;
 import com.intellij.ui.components.panels.VerticalLayout;
 
 import sk.mslb.intellij.plugins.stringtools.StringToolsController;
@@ -22,16 +19,13 @@ import sk.mslb.intellij.plugins.stringtools.gui.i18n.ResourceKey;
 public class MainPanel extends JPanel {
 	private StringToolsController controller;
 
-	private GuiFactory guiFactory;
 	private InputTextEditor inputText;
-	private EditorTextField outputText;
+	private JTextArea outputText;
 	private List<OperationSelector> operations = new ArrayList<>();
 
 	public MainPanel(StringToolsController controller) {
 		this.controller = controller;
 		initalizeGUI();
-		loadSelection();
-
 	}
 
 	public void showWarning(boolean showWarningFlag) {
@@ -40,6 +34,10 @@ public class MainPanel extends JPanel {
 
 	public void setOutputContent(String content) {
 		outputText.setText(content);
+	}
+
+	public void setInputContent(String content) {
+		inputText.setText(content);
 	}
 
 	public String getInputContent() {
@@ -56,7 +54,7 @@ public class MainPanel extends JPanel {
 	}
 
 	private void initalizeGUI() {
-		guiFactory = new GuiFactory();
+		GuiFactory guiFactory = new GuiFactory();
 		setLayout(new GridBagLayout());
 
 		//original text area
@@ -66,7 +64,7 @@ public class MainPanel extends JPanel {
 
 		//converted text area
 		add(guiFactory.createLabel(ResourceKey.CONVERTED_TEXT), guiFactory.getGridBagBuilder().withPos(0, 1).toGBC());
-		outputText = guiFactory.createEditorTextField();
+		outputText = guiFactory.createOutputTextField();
 		add(outputText, guiFactory.getGridBagBuilder().withPos(1, 1).toGBC());
 
 		//actions panel
@@ -106,14 +104,13 @@ public class MainPanel extends JPanel {
 
 		//other operations
 		final JPanel radioPanel3 = guiFactory.createPanel(new VerticalLayout(0));
-		operations.add(guiFactory
-				.createOperationSelector(ResourceKey.REVERSE_STRING_ACTION, Operation.REVERSE_STRING, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.ROT13_ACTION, Operation.ROT13, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.MD5_HASH_ACTION, Operation.MD5_HASH, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.SHA_256_ACTION, Operation.SHA256_HASH, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.SHA_512_ACTION, Operation.SHA512_HASH, controller, buttonGroup));
 		operations.add(guiFactory.createOperationSelector(ResourceKey.CRC32_ACTION, Operation.CRC32, controller, buttonGroup));
-		operations.add(guiFactory.createOperationSelector(ResourceKey.LUHN_DIGIT_GEN_ACTION, Operation.LUHN_DIGIT_GENERATOR, controller, buttonGroup));
+		operations.add(guiFactory
+				.createOperationSelector(ResourceKey.LUHN_DIGIT_GEN_ACTION, Operation.LUHN_DIGIT_GENERATOR, controller, buttonGroup));
 
 		operations.subList(12, operations.size()).forEach(radioPanel3::add);
 		guiFactory.addBorder(radioPanel3, ResourceKey.HASH_CRC_TITLE);
@@ -136,15 +133,4 @@ public class MainPanel extends JPanel {
 						.withGridWidth(2).toGBC());
 
 	}
-
-	private void loadSelection() {
-		Editor editor = FileEditorManager.getInstance(controller.getDialog().getProject()).getSelectedTextEditor();
-		if (editor != null) {
-			String selectedText = editor.getSelectionModel().getSelectedText();
-			if (selectedText != null && selectedText.length() > 0) {
-				inputText.setText(selectedText);
-			}
-		}
-	}
-
 }

@@ -2,8 +2,9 @@ package sk.mslb.intellij.plugins.stringtools.gui.components;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import com.intellij.openapi.project.Project;
-import com.intellij.ui.EditorTextField;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBLabelDecorator;
 import com.intellij.ui.components.JBPanel;
 
@@ -41,11 +42,13 @@ public class GuiFactory {
 	}
 
 
-	public EditorTextField createEditorTextField() {
-		EditorTextField etf = new EditorTextField();
-		etf.setOneLineMode(false);
-		etf.setPreferredSize(new Dimension(350, 50));
-		etf.setMinimumSize(new Dimension(350, 50));
+	public JTextArea createOutputTextField() {
+		JTextArea etf = new JTextArea();
+		//etf.setOneLineMode(false);
+		etf.setLineWrap(true);
+		etf.setBorder(new LineBorder(JBColor.LIGHT_GRAY));
+		etf.setPreferredSize(new Dimension(350, 100));
+		etf.setMinimumSize(new Dimension(350, 100));
 		return etf;
 	}
 
@@ -64,8 +67,7 @@ public class GuiFactory {
 	}
 
 	public JBLabelDecorator createLabel(ResourceKey label) {
-		JBLabelDecorator field = JBLabelDecorator.createJBLabelDecorator(resources.getText(label));
-		return field;
+		return JBLabelDecorator.createJBLabelDecorator(resources.getText(label));
 	}
 
 	public StatusLine createStatusLine() {
@@ -73,8 +75,7 @@ public class GuiFactory {
 	}
 
 	public JBPanel createPanel(LayoutManager layoutManager) {
-		JBPanel panel = new JBPanel(layoutManager);
-		return panel;
+		return new JBPanel(layoutManager);
 	}
 
 

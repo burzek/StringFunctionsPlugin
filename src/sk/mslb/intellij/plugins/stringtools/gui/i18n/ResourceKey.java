@@ -27,7 +27,6 @@ public class ResourceKey {
 	public static final ResourceKey URL_DECODE_ACTION = new ResourceKey("url.decode.action");
 	public static final ResourceKey HTML_ENCODE_ACTION = new ResourceKey("html.encode.action");
 	public static final ResourceKey HTML_DECODE_ACTION = new ResourceKey("html.decode.action");
-	public static final ResourceKey REVERSE_STRING_ACTION = new ResourceKey("reverse.string.action");
 	public static final ResourceKey ROT13_ACTION = new ResourceKey("rot13.action");
 	public static final ResourceKey MD5_HASH_ACTION = new ResourceKey("md5.hash.action");
 	public static final ResourceKey SHA_256_ACTION = new ResourceKey("sha256.hash.action");

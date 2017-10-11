@@ -16,7 +16,7 @@ public class LuhnDigitAppender implements Converter {
 			} else {
 				result.withResult(compute(input));
 			}
-		};
+		}
 
 		return result;
 	}
@@ -43,7 +43,4 @@ public class LuhnDigitAppender implements Converter {
 		return input.chars().allMatch(Character::isDigit);
 	}
 
-	public static void main(String[] args) {
-		System.out.println(new LuhnDigitAppender().convert("1234567").getResult());
-	}
 }

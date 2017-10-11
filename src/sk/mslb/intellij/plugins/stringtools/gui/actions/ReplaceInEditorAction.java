@@ -31,10 +31,7 @@ public class ReplaceInEditorAction extends AbstractAction {
 			if (selectedText != null && selectedText.length() > 0) {
 				int startPosition = editor.getSelectionModel().getSelectionStart();
 				int endPosition = editor.getSelectionModel().getSelectionEnd();
-				WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
-					editor.getDocument().replaceString(startPosition, endPosition, transformationData.getConvertedText());
-				});
-				//editor.getSelectionModel().removeSelection();
+				WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> editor.getDocument().replaceString(startPosition, endPosition, transformationData.getConvertedText()));
 				updateStatusListener.updateStatus(ResourceKey.REPLACE_DONE_STATUS);
 			} else {
 				updateStatusListener.updateStatus(ResourceKey.NO_SELECTION_STATUS);

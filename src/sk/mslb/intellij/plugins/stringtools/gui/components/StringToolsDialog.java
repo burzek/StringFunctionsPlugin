@@ -13,7 +13,6 @@ import sk.mslb.intellij.plugins.stringtools.StringToolsController;
  */
 public class StringToolsDialog extends DialogBuilder {
 	private Project project;
-	private StringToolsController controller;
 	private MainPanel mainPanel;
 
 	public StringToolsDialog(@Nullable Project project) {
@@ -22,7 +21,7 @@ public class StringToolsDialog extends DialogBuilder {
 		initialize();
 	}
 
-	public Project getProject() {
+	private Project getProject() {
 		return project;
 	}
 
@@ -35,12 +34,24 @@ public class StringToolsDialog extends DialogBuilder {
 
 
 	private void initialize() {
-		controller = new StringToolsController(this);
+		StringToolsController controller = new StringToolsController(this);
 		mainPanel = new MainPanel(controller);
+		loadSelectionFromEditor();
+
 		setCenterPanel(mainPanel);
 		removeAllActions();
 		resizable(false);
 
+	}
+
+	private void loadSelectionFromEditor() {
+		Editor editor = FileEditorManager.getInstance(getProject()).getSelectedTextEditor();
+		if (editor != null) {
+			String selectedText = editor.getSelectionModel().getSelectedText();
+			if (selectedText != null && selectedText.length() > 0) {
+				getMainPanel().setInputContent(selectedText);
+			}
+		}
 	}
 
 	public MainPanel getMainPanel() {

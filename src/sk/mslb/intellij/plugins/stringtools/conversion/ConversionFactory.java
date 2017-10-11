@@ -11,7 +11,6 @@ import sk.mslb.intellij.plugins.stringtools.conversion.converters.LuhnDigitAppen
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.MD5Hash;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.OctToString;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.ROT13String;
-import sk.mslb.intellij.plugins.stringtools.conversion.converters.ReverseString;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.SHA256Hash;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.SHA512Hash;
 import sk.mslb.intellij.plugins.stringtools.conversion.converters.StringToBinary;
@@ -52,8 +51,6 @@ public class ConversionFactory {
 				return new HtmlEncode();
 			case HTML_DECODE:
 				return new HtmlDecode();
-			case REVERSE_STRING:
-				return new ReverseString();
 			case ROT13:
 				return new ROT13String();
 			case MD5_HASH:

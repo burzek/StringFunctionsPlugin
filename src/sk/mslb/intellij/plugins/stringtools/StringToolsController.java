@@ -19,15 +19,13 @@ public class StringToolsController implements ActionsRequestListener, DataProvid
 	public StringToolsController(StringToolsDialog dialog) {
 		this.dialog = dialog;
 		conversionProcessor = new ConversionProcessor(this);
-	}
 
-	public StringToolsDialog getDialog() {
-		return dialog;
 	}
 
 	@Override
 	public ConversionData getConversionData() {
-		return new ConversionData(dialog.getOpenedEditor(), getMainPanel().getInputContent(), getMainPanel().getOutputContent(), getMainPanel().getSelectedOperation());
+		return new ConversionData(dialog.getOpenedEditor(), getMainPanel().getInputContent(), getMainPanel().getOutputContent(),
+				getMainPanel().getSelectedOperation());
 	}
 
 	@Override

@@ -24,10 +24,6 @@ public class ConversionData {
 		return originalText;
 	}
 
-	public void setOriginalText(String originalText) {
-		this.originalText = originalText;
-	}
-
 	public String getConvertedText() {
 		return convertedText;
 	}

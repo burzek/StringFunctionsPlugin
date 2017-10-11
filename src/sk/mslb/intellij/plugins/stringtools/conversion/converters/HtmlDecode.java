@@ -19,7 +19,7 @@ public class HtmlDecode implements Converter {
 		Matcher matcher = Pattern.compile("(&#\\d+;|&amp;|&quot;|&lt;|&gt;)").matcher(htmlString);
 		while (matcher.find()) {
 			String element = matcher.group(1);
-			String replacement = null;
+			String replacement;
 			switch (element) {
 				case "&amp;":
 					replacement = "&";

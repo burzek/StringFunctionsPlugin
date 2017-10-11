@@ -8,7 +8,7 @@ import com.intellij.util.ui.JBUI;
  */
 public class GridBagBuilder {
 
-	private GridBagConstraints templateGBC = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH,
+	private static final GridBagConstraints templateGBC = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH,
 			GridBagConstraints.HORIZONTAL, JBUI.insetsRight(5), 0, 0);
 
 	private GridBagConstraints currentGbc;

@@ -6,7 +6,7 @@
 
     <description><![CDATA[
       Handy string tools<br>
-      <small>Handy tools for converting (hex, binary) and encoding/decoding (URL, HTML entities, Base64) strings.</small>
+      <small>Handy string tools for converting (hex, binary, oct), encoding/decoding (URL, HTML, Base64) and computing HASH/CRCs.</small>
       ]]>
     </description>
 

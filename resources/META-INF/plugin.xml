@@ -14,7 +14,7 @@
           v2.0<br>
           <small>
             <ul>Added new operations
-               <li>String reverse</li>
+               <li>ASCII/OCT conversions</li>
                <li>ROT13</li>
                <li>MD5 hash</li>
                <li>SHA256 hash</li>

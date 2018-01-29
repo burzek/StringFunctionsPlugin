@@ -1,9 +1,14 @@
 package sk.mslb.intellij.plugins.stringtools.gui.i18n;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.ObjectUtils;
+
 /**
  * @author boris.brinza 12-Apr-2017.
  */
-public class ResourceKey {
+public class ResourceKey implements Cloneable {
 
 	public static final ResourceKey WINDOW_TITLE = new ResourceKey("window.title");
 
@@ -44,13 +49,32 @@ public class ResourceKey {
 	public static final ResourceKey REPLACE_DONE_STATUS = new ResourceKey("replace.done.status");
 	public static final ResourceKey NO_SELECTION_STATUS = new ResourceKey("no.selection.status");
 
+	public static final ResourceKey ERR_INVALID_LENGTH = new ResourceKey("err.invalid.length");
+	public static final ResourceKey ERR_INVALID_INPUT = new ResourceKey("err.invalid.input");
+	public static final ResourceKey ERR_INTERNAL = new ResourceKey("err.internal");
+
 	private String resourceKey;
+	private Map<String, Object> params = new HashMap<>();
 
 	private ResourceKey(String resourceKey) {
 		this.resourceKey = resourceKey;
 	}
 
 	public String getResourceKey() {
+		return resourceKey;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		super.clone();
+		ResourceKey rk = new ResourceKey(this.resourceKey);
+		rk.params.putAll(this.params);
+		return rk;
+	}
+
+	public ResourceKey withParam(String paramName, Object param) {
+		ResourceKey resourceKey = ObjectUtils.clone(this);
+		resourceKey.params.put(paramName, param);
 		return resourceKey;
 	}
 

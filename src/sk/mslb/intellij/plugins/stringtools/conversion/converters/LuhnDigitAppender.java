@@ -2,6 +2,7 @@ package sk.mslb.intellij.plugins.stringtools.conversion.converters;
 
 import sk.mslb.intellij.plugins.stringtools.conversion.ConversionResult;
 import sk.mslb.intellij.plugins.stringtools.conversion.Converter;
+import sk.mslb.intellij.plugins.stringtools.gui.i18n.ResourceKey;
 
 /**
  * @author boris.brinza 10-Oct-2017.
@@ -12,7 +13,7 @@ public class LuhnDigitAppender implements Converter {
 		ConversionResult result = new ConversionResult();
 		if (input.length() != 0) {
 			if (!isValid(input)) {
-				result = result.withResult("???").withError();
+				result = result.withResult("???").withError(ResourceKey.ERR_INVALID_INPUT);
 			} else {
 				result.withResult(compute(input));
 			}

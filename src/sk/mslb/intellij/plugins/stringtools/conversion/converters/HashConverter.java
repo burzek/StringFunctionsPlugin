@@ -8,6 +8,7 @@ import java.util.Map;
 
 import sk.mslb.intellij.plugins.stringtools.conversion.ConversionResult;
 import sk.mslb.intellij.plugins.stringtools.conversion.Converter;
+import sk.mslb.intellij.plugins.stringtools.gui.i18n.ResourceKey;
 
 /**
  * @author boris.brinza 10-Oct-2017.
@@ -39,7 +40,7 @@ public abstract class HashConverter implements Converter {
 
 			return new ConversionResult().withResult(sb.toString());
 		} catch (NoSuchAlgorithmException e) {
-			return new ConversionResult().withResult("???").withError();
+			return new ConversionResult().withResult("???").withError(ResourceKey.ERR_INTERNAL.withParam("stacktrace", e.toString()));
 		}
 
 	}

@@ -1,15 +1,17 @@
 package sk.mslb.intellij.plugins.stringtools.conversion;
 
+import sk.mslb.intellij.plugins.stringtools.gui.i18n.ResourceKey;
+
 /**
  * @author boris.brinza 28-Sep-2017.
  */
 public class ConversionResult {
 
 	private String result;
-	private boolean errorFlag;
+	private ResourceKey errorResourceKey;
 
-	public ConversionResult withError() {
-		errorFlag = true;
+	public ConversionResult withError(ResourceKey errorResourceKey) {
+		this.errorResourceKey = errorResourceKey;
 		return this;
 	}
 
@@ -23,6 +25,6 @@ public class ConversionResult {
 	}
 
 	public boolean isError() {
-		return errorFlag;
+		return errorResourceKey != null;
 	}
 }

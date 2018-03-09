@@ -8,4 +8,5 @@ import sk.mslb.intellij.plugins.stringtools.gui.i18n.ResourceKey;
 public interface UpdateStatusListener {
 
 	void updateStatus(ResourceKey status);
+	void updateErrorStatus(ResourceKey status);
 }

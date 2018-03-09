@@ -24,11 +24,13 @@ public abstract class NumBaseToString implements Converter {
 			String tmpStr = input.length() % numDigits == 0 ? input : input.substring(0, input.length() - 1);
 			String digitSplitter = "(?<=\\G.{" + numDigits + "})";
 			for (String split : tmpStr.split(digitSplitter)) {
-				if (!isValid(split)) {
-					conversionResult = conversionResult.withError(ResourceKey.ERR_INVALID_INPUT);
-					sb.append("?");
-				} else {
-					sb.append((char) Integer.parseInt(split, base));
+				if (split.length() > 0) {
+					if (!isValid(split)) {
+						conversionResult = conversionResult.withError(ResourceKey.ERR_INVALID_INPUT);
+						sb.append("?");
+					} else {
+						sb.append((char) Integer.parseInt(split, base));
+					}
 				}
 			}
 			conversionResult = conversionResult.withResult(sb.toString());
@@ -37,7 +39,7 @@ public abstract class NumBaseToString implements Converter {
 	}
 
 	private boolean isValid(String digit) {
-		return digit.length() == getNumberDigits() &&
+		return digit.length() % getNumberDigits() == 0 &&
 				digit.chars().allMatch(c -> Character.digit(c, getBase()) != -1);
 	}
 

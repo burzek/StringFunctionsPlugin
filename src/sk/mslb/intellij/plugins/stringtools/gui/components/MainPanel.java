@@ -1,12 +1,21 @@
 package sk.mslb.intellij.plugins.stringtools.gui.components;
 
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import com.intellij.ui.components.panels.VerticalLayout;
 
 import sk.mslb.intellij.plugins.stringtools.StringToolsController;
+import sk.mslb.intellij.plugins.stringtools.data.ConversionData;
 import sk.mslb.intellij.plugins.stringtools.data.Operation;
 import sk.mslb.intellij.plugins.stringtools.gui.actions.CloseAction;
 import sk.mslb.intellij.plugins.stringtools.gui.actions.CopyToClipboardAction;
@@ -21,6 +30,7 @@ public class MainPanel extends JPanel {
 
 	private InputTextEditor inputText;
 	private JTextArea outputText;
+	private StatusLine statusLine;
 	private List<OperationSelector> operations = new ArrayList<>();
 
 	public MainPanel(StringToolsController controller) {
@@ -28,8 +38,9 @@ public class MainPanel extends JPanel {
 		initalizeGUI();
 	}
 
-	public void showWarning(boolean showWarningFlag) {
-		inputText.showWarning(showWarningFlag);
+	public void showWarning(ConversionData conversionData) {
+		inputText.showWarning(conversionData.isInvalidInput());
+		statusLine.updateErrorStatus(conversionData.getErrorMessageForInvalidInput());
 	}
 
 	public void setOutputContent(String content) {
@@ -120,7 +131,7 @@ public class MainPanel extends JPanel {
 		operations.get(0).setSelected(true);    //select first button
 
 		//add status line
-		StatusLine statusLine = guiFactory.createStatusLine();
+		statusLine = guiFactory.createStatusLine();
 		add(statusLine, guiFactory.getGridBagBuilder().withPos(0, 5).withAnchor(GridBagConstraints.CENTER).withGridWidth(2).toGBC());
 
 		//actions

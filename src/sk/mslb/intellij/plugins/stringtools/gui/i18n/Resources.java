@@ -3,10 +3,12 @@ package sk.mslb.intellij.plugins.stringtools.gui.i18n;
 import java.io.IOException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import javax.swing.*;
+
+import javax.swing.Icon;
+
+import org.jetbrains.java.generate.exception.PluginException;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.util.IconLoader;
-import org.jetbrains.java.generate.exception.PluginException;
 
 /**
  * @author boris.brinza 12-Apr-2017.
@@ -31,12 +33,17 @@ public class Resources {
 	}
 
 	public String getText(ResourceKey resourceKey) {
+		String text;
 		if (resourceBundle.containsKey(resourceKey.getResourceKey())) {
-			return resourceBundle.getString(resourceKey.getResourceKey());
+			text =  resourceBundle.getString(resourceKey.getResourceKey());
+			for (String param : resourceKey.getParameterNames()) {
+				text = text.replaceAll("\\$" + param, resourceKey.getParameterValueFor(param));
+			}
 		} else {
 			PluginManager.getLogger().error("Cannot find resource with key:" + resourceKey.getResourceKey());
-			return "???" + resourceKey.getResourceKey() + "???";
+			text = "???" + resourceKey.getResourceKey() + "???";
 		}
+		return text;
 	}
 
 	public Icon getIcon(ResourceKey resourceKey) {

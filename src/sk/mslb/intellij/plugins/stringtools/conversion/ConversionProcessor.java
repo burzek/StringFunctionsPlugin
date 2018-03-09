@@ -19,7 +19,9 @@ public class ConversionProcessor {
 		Converter converter = new ConversionFactory().getConverter(data.getOperation());
 		ConversionResult conversionResult = converter.convert(data.getOriginalText());
 		data.setConvertedText(conversionResult.getResult());
-		data.setInvalidInputFlag(conversionResult.isError());
+		if (conversionResult.isError()) {
+			data.setErrorMessage(conversionResult.getErrorResourceKey());
+		}
 
 		return data;
 	}

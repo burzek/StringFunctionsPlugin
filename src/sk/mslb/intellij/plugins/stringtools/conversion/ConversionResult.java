@@ -27,4 +27,9 @@ public class ConversionResult {
 	public boolean isError() {
 		return errorResourceKey != null;
 	}
+
+	public ResourceKey getErrorResourceKey() {
+		return errorResourceKey;
+	}
+
 }

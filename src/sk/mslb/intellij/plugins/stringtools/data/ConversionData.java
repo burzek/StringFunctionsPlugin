@@ -2,6 +2,8 @@ package sk.mslb.intellij.plugins.stringtools.data;
 
 import com.intellij.openapi.editor.Editor;
 
+import sk.mslb.intellij.plugins.stringtools.gui.i18n.ResourceKey;
+
 /**
  * @author boris.brinza 12-Apr-2017.
  */
@@ -11,7 +13,7 @@ public class ConversionData {
 	private String originalText;
 	private String convertedText;
 	private Operation operation;
-	private boolean invalidInputFlag;
+	private ResourceKey errorMessage;
 
 	public ConversionData(Editor openedEditor, String originalText, String convertedText, Operation operation) {
 		this.openedEditor = openedEditor;
@@ -40,11 +42,15 @@ public class ConversionData {
 		return openedEditor;
 	}
 
-	public void setInvalidInputFlag(boolean invalidInputFlag) {
-		this.invalidInputFlag = invalidInputFlag;
+	public void setErrorMessage(ResourceKey errorMessage) {
+		this.errorMessage = errorMessage;
 	}
 
-	public boolean isInvalidInputFlag() {
-		return invalidInputFlag;
+	public ResourceKey getErrorMessageForInvalidInput() {
+		return errorMessage;
+	}
+
+	public boolean isInvalidInput() {
+		return errorMessage != null;
 	}
 }

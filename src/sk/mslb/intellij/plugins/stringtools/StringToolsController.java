@@ -37,7 +37,7 @@ public class StringToolsController implements ActionsRequestListener, DataProvid
 	public void transformationRequested() {
 		ConversionData transformationData = conversionProcessor.doConversion();
 
-		getMainPanel().showWarning(transformationData.isInvalidInputFlag());
+		getMainPanel().showWarning(transformationData);
 		getMainPanel().setOutputContent(transformationData.getConvertedText());
 
 	}

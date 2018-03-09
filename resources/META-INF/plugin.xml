@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>StringToolsPlugin</id>
     <name>String Tools</name>
-    <version>2.0</version>
+    <version>3.0</version>
     <vendor email="boris.brinza@gmail.com" url="https://www.linkedin.com/in/boris-brinza-5768846/">MSLB</vendor>
 
     <description><![CDATA[
@@ -11,18 +11,26 @@
     </description>
 
     <change-notes><![CDATA[
-          v2.0<br>
-          <small>
-            <ul>Added new operations
-               <li>ASCII/OCT conversions</li>
-               <li>ROT13</li>
-               <li>MD5 hash</li>
-               <li>SHA256 hash</li>
-               <li>SHA512 hash</li>
-               <li>CRC32 checksum</li>
-               <li>LUHN digit generator</li>
-            </ul>
-          </small>
+            v2.0
+            <small>
+                <ul>Added new operations
+                   <li>ASCII/OCT conversions</li>
+                   <li>ROT13</li>
+                   <li>MD5 hash</li>
+                   <li>SHA256 hash</li>
+                   <li>SHA512 hash</li>
+                   <li>CRC32 checksum</li>
+                   <li>LUHN digit generator</li>
+                </ul>
+            </small>
+            <br>
+            v3.0
+            <small>
+              <ul>
+                <li>Fixed errors</li>
+                <li>Description in status bar is displayed for invalid input or error</li>
+              </ul>
+            </small>
           ]]>
     </change-notes>
 

@@ -1,9 +1,14 @@
 package sk.mslb.intellij.plugins.stringtools.gui.i18n;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.ObjectUtils;
+import org.jetbrains.java.generate.exception.PluginException;
+import com.intellij.ide.plugins.PluginManager;
+
+//import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * @author boris.brinza 12-Apr-2017.
@@ -65,7 +70,7 @@ public class ResourceKey implements Cloneable {
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public Object clone() throws CloneNotSupportedException {
 		super.clone();
 		ResourceKey rk = new ResourceKey(this.resourceKey);
 		rk.params.putAll(this.params);
@@ -73,9 +78,24 @@ public class ResourceKey implements Cloneable {
 	}
 
 	public ResourceKey withParam(String paramName, Object param) {
-		ResourceKey resourceKey = ObjectUtils.clone(this);
+		ResourceKey resourceKey = null;
+		try {
+			resourceKey = (ResourceKey) this.clone();
+		} catch (CloneNotSupportedException e) {
+			PluginManager.getLogger().error("Internal fatal error, cannot clone resource " + getResourceKey());
+			throw new PluginException("Internal fatal error, cannot clone resource " + getResourceKey(), e);
+		}
 		resourceKey.params.put(paramName, param);
 		return resourceKey;
+	}
+
+	public Collection<String> getParameterNames() {
+		return Collections.unmodifiableSet(params.keySet());
+	}
+
+	public String getParameterValueFor(String parameterName) {
+		Object val = params.getOrDefault(parameterName, "???");
+		return val == null ? "???" : val.toString();
 	}
 
 }

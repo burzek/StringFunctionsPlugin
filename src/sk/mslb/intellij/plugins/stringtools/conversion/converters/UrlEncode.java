@@ -22,13 +22,15 @@ public class UrlEncode implements Converter {
 		int len = input.length();
 		for (int i = 0; i < len; i++) {
 			int ch = input.charAt(i);
-			if (Character.isLetterOrDigit(ch)) {
+			if (Character.isDigit(ch)) {
+				sbuf.append((char) ch);
+			} else if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
 				sbuf.append((char) ch);
 			} else if (NOT_ESCAPED.indexOf(ch) != -1) {
 				sbuf.append((char) ch);
 			} else if (ch == ' ') {			// space
 				sbuf.append("%20");
-			} else if (ch <= 0x007f) {		// other ASCII
+			} else if (ch <= 0x007f) {        // other ASCII
 				sbuf.append(toHex(ch));
 			} else if (ch <= 0x07FF) {		// non-ASCII <= 0x7FF
 				sbuf.append(toHex(0xc0 | (ch >> 6)));

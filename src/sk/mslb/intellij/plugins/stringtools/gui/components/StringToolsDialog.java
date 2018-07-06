@@ -1,10 +1,13 @@
 package sk.mslb.intellij.plugins.stringtools.gui.components;
 
+import java.awt.event.KeyEvent;
+
+import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogBuilder;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.ui.KeyStrokeAdapter;
 
 import sk.mslb.intellij.plugins.stringtools.StringToolsController;
 
@@ -41,6 +44,15 @@ public class StringToolsDialog extends DialogBuilder {
 		setCenterPanel(mainPanel);
 		removeAllActions();
 		resizable(false);
+		getDialogWrapper().addKeyListener(new KeyStrokeAdapter() {
+				@Override
+				public void keyPressed(KeyEvent event) {
+					super.keyPressed(event);
+					if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						controller.exitRequested();
+					}
+				}
+			});
 
 	}
 

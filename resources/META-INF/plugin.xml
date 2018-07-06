@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>StringToolsPlugin</id>
     <name>String Tools</name>
-    <version>3.0</version>
+    <version>4.0</version>
     <vendor email="boris.brinza@gmail.com" url="https://www.linkedin.com/in/boris-brinza-5768846/">MSLB</vendor>
 
     <description><![CDATA[
@@ -26,9 +26,18 @@
             <br>
             v3.0
             <small>
-              <ul>
+              <ul>ttt
                 <li>Fixed errors</li>
                 <li>Description in status bar is displayed for invalid input or error</li>
+              </ul>
+            </small>
+            <br>
+            v4.0
+            <small>
+              <ul>
+                <li>Fixed internal errors</li>
+                <li>Url endode/decode is rewritten based on rfc3986 Percent-Encoding</li>
+                <li>Dialog can be closed by ESC key
               </ul>
             </small>
           ]]>
